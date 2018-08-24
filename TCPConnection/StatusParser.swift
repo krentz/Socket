@@ -1,0 +1,295 @@
+//
+//  StatusParser.swift
+//  TCPConnection
+//
+//  Created by Rafael Krentz Gonçalves on 8/23/18.
+//  Copyright © 2018 krentz. All rights reserved.
+//
+
+import Foundation
+
+class StatusParser {
+    
+    static let shared = StatusParser()
+    //DOIS METODOS TRY COMENTADOS - passar data para Data e gmt
+    
+    func parseStatus1(data: [UInt8]){
+        
+        WifiDevice.shared.WIFI_HR_SS_SERIAL_NUMBER_HIGH = (Int(data[3]) << 8) | Int(data[4])
+        WifiDevice.shared.WIFI_HR_SS_SERIAL_NUMBER_LOW = (Int(data[5]) << 8) | Int(data[6])
+        WifiDevice.shared.WIFI_serialNumber = ( WifiDevice.shared.WIFI_HR_SS_SERIAL_NUMBER_HIGH << 16) | (WifiDevice.shared.WIFI_HR_SS_SERIAL_NUMBER_LOW)
+        
+        WifiDevice.shared.WIFI_HR_SS_PRODUCT_CODE = (Int(data[7] & 0x00ff) << 8) | Int(data[8] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_FIRMWARE_VERSION = (Int(data[9]) << 8) | Int(data[10])
+        
+        WifiDevice.shared.WIFI_CR_PS_RESERVED_1 = (Int(data[11]) << 8) | Int(data[12])
+        
+        WifiDevice.shared.WIFI_HR_SS_MAC_ADDR_15_4_0_1_WiFi = (Int(data[13] & 0x00ff) << 8) | Int(data[14] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_MAC_ADDR_15_4_2_3_WiFi = (Int(data[15] & 0x00ff) << 8) | Int(data[16] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_MAC_ADDR_15_4_4_5_WiFi = (Int(data[17] & 0x00ff) << 8) | Int(data[18] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_MAC_ADDR_15_4_6_7 = (Int(data[19] & 0x00ff) << 8) | Int(data[20] & 0x00ff)
+        
+        WifiDevice.shared.WIFI_CR_PS_RESERVED_2 = (Int(data[21] & 0x00ff) << 8) | Int(data[22] & 0x00ff)
+        
+        WifiDevice.shared.WIFI_HR_SS_MAC_ADDR_BLE_0_1 = (Int(data[23] & 0x00ff) << 8) | Int(data[24] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_MAC_ADDR_BLE_2_3 = (Int(data[25] & 0x00ff) << 8) | Int(data[26] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_MAC_ADDR_BLE_4_5 = (Int(data[27] & 0x00ff) << 8) | Int(data[28] & 0x00ff)
+       
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_3 = (Int(data[29] & 0x00ff) << 8) | Int(data[30] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_4 = (Int(data[31] & 0x00ff) << 8) | Int(data[32] & 0x00ff)
+        
+        WifiDevice.shared.WIFI_HR_SS_POWER_SUPPLY = (Int(data[33] & 0x00ff) << 8) | Int(data[34] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_5 = (Int(data[35] & 0x00ff) << 8) | Int(data[36] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_BLE_STATUS = (Int(data[37] & 0x00ff) << 8) | Int(data[38] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_BLE_LQI_RX_RESERVED = (Int(data[39] & 0x00ff) << 8) | Int(data[40] & 0x00ff)
+        
+        WifiDevice.shared.WIFI_HR_SS_BLE_RESERVED_1 = (Int(data[41] & 0x00ff) << 8) | Int(data[42] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_BLE_RESERVED_2 = (Int(data[43] & 0x00ff) << 8) | Int(data[44] & 0x00ff)
+        
+        
+        WifiDevice.shared.WIFI_HR_SS_USB_STATUS = (Int(data[45] & 0x00ff) << 8) | Int(data[46] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_USB_RESERVED_1 = (Int(data[47] & 0x00ff) << 8) | Int(data[48] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_USB_RESERVED_2 = (Int(data[49] & 0x00ff) << 8) | Int(data[50] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_15_4_STATUS_RESERVED = (Int(data[51] & 0x00ff) << 8) | Int(data[52] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_15_4_SHORT_MAC_RESERVED = (Int(data[53] & 0x00ff) << 8) | Int(data[54] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_15_4_CHANNEL_RESERVED = (Int(data[55] & 0x00ff) << 8) | Int(data[56] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_15_4_LQI_RX_RESERVED = (Int(data[57] & 0x00ff) << 8) | Int(data[58] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_15_4_RESERVED_1 = (Int(data[59] & 0x00ff) << 8) | Int(data[60] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_15_4_RESERVED_2 = (Int(data[61] & 0x00ff) << 8) | Int(data[62] & 0x00ff)
+        
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_6 = (Int(data[53] & 0x00ff) << 8) | Int(data[64] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_7 = (Int(data[65] & 0x00ff) << 8) | Int(data[66] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_NUMBER_OF_ACTIVE_CHANNELS = (Int(data[67] & 0x00ff) << 8) | Int(data[68] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_8 = (Int(data[69] & 0x00ff) << 8) | Int(data[70] & 0x00ff)
+        
+        WifiDevice.shared.WIFI_HR_SS_RECORDS_STARTED_INTERFACE = (Int(data[71] & 0x00ff) << 8) | Int(data[72] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_RECORDS_STOPPED_INTERFACE = (Int(data[73] & 0x00ff) << 8) | Int(data[74] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_STATUS_OF_RECORDS = (Int(data[75] & 0x00ff) << 8) | Int(data[76] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_NUMBER_OF_RECORDS_H = (Int(data[77] & 0x00ff) << 8) | Int(data[78] & 0x00ff)
+        
+        WifiDevice.shared.WIFI_HR_SS_NUMBER_OF_RECORDS_L = (Int(data[79] & 0x00ff) << 8) | Int(data[80] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_NUMBER_OF_FREE_RECORDS_H = (Int(data[81] & 0x00ff) << 8) | Int(data[82] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_NUMBER_OF_FREE_RECORDS_L = (Int(data[83] & 0x00ff) << 8) | Int(data[84] & 0x00ff)
+        
+        
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_11 = (Int(data[85] & 0x00ff) << 8) | Int(data[86] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_12 = (Int(data[87] & 0x00ff) << 8) | Int(data[88] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_FIRST_YEAR = (Int(data[89] & 0x00ff) << 8) | Int(data[90] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_FIRST_MONTH = (Int(data[91] & 0x00ff) << 8) | Int(data[92] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_FIRST_DAY = (Int(data[93] & 0x00ff) << 8) | Int(data[94] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_FIRST_HOUR = (Int(data[95] & 0x00ff) << 8) | Int(data[96] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_FIRST_MINUTE = (Int(data[97] & 0x00ff) << 8) | Int(data[98] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_FIRST_SECOND = (Int(data[99] & 0x00ff) << 8) | Int(data[100] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_13 = (Int(data[101] & 0x00ff) << 8) | Int(data[102] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_14 = (Int(data[103] & 0x00ff) << 8) | Int(data[104] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CURRENT_YEAR = (Int(data[105] & 0x00ff) << 8) | Int(data[106] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CURRENT_MONTH = (Int(data[107] & 0x00ff) << 8) | Int(data[108] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CURRENT_DAY = (Int(data[109] & 0x00ff) << 8) | Int(data[110] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CURRENT_HOUR = (Int(data[111] & 0x00ff) << 8) | Int(data[112] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CURRENT_MINUTE = (Int(data[113] & 0x00ff) << 8) | Int(data[114] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CURRENT_SECOND = (Int(data[115] & 0x00ff) << 8) | Int(data[116] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_RESET_CONTIER = (Int(data[117] & 0x00ff) << 8) | Int(data[118] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_HAS_RESET_OCURRED = (Int(data[119] & 0x00ff) << 8) | Int(data[120] & 0x00ff)
+       // WifiDevice.shared.WIFI_HR_SS_RESET_CONTIER = (Int(data[121] & 0x00ff) << 8) | Int(data[122] & 0x00ff)
+        
+        WifiDevice.shared.WIFI_HR_SS_AM_I_IN_BOOTLOADER_MODE = (Int(data[123] & 0x00ff) << 8) | Int(data[124] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CHD_LAST_EVENT_YEAR = (Int(data[125] & 0x00ff) << 8) | Int(data[126] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CHD_LAST_EVENT_MONTH = (Int(data[127] & 0x00ff) << 8) | Int(data[128] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CHD_LAST_EVENT_DAY = (Int(data[129] & 0x00ff) << 8) | Int(data[130] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CHD_LAST_EVENT_HOUR = (Int(data[131] & 0x00ff) << 8) | Int(data[132] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CHD_LAST_EVENT_MINUTE = (Int(data[133] & 0x00ff) << 8) | Int(data[134] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CHD_LAST_EVENT_SECOND = (Int(data[135] & 0x00ff) << 8) | Int(data[136] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_ALARM_STATUS = (Int(data[137] & 0x00ff) << 8) | Int(data[138] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_BUZZER_STATUS = (Int(data[139] & 0x00ff) << 8) | Int(data[140] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_26 = (Int(data[141] & 0x00ff) << 8) | Int(data[142] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_DIGITAL_OUT_VALUE = (Int(data[143] & 0x00ff) << 8) | Int(data[144] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CHD_LAST_EVENT_EDGE = (Int(data[145] & 0x00ff) << 8) | Int(data[146] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CHD_ALARM_STATUS = (Int(data[147] & 0x00ff) << 8) | Int(data[148] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CHD_STATUS = (Int(data[149] & 0x00ff) << 8) | Int(data[150] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CHD_VALUE = (Int(data[151] & 0x00ff) << 8) | Int(data[152] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CHD_VALUE_USER_UNIT_float_High = (Int(data[153] & 0x00ff) << 8) | Int(data[154] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CHD_VALUE_USER_UNIT_float_Low = (Int(data[155] & 0x00ff) << 8) | Int(data[156] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CHD_VALUE_MIN = (Int(data[157] & 0x00ff) << 8) | Int(data[158] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CHD_VALUE_MAX = (Int(data[159] & 0x00ff) << 8) | Int(data[160] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CHD_ALARM_MIN_STATUS = (Int(data[161] & 0x00ff) << 8) | Int(data[162] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CHD_ALARM_MAX_STATUS = (Int(data[163] & 0x00ff) << 8) | Int(data[164] & 0x00ff)
+        
+      
+        
+        WifiDevice.shared.WIFI_HR_SS_CH1_STATUS = (Int(data[165] & 0x00ff) << 8) | Int(data[166] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CH1_VALUE = (Int(CShort(data[167]) & 0x00ff) << 8) | Int(CShort(data[168]) & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CH1_VALUE_MIN = (Int(data[169] & 0x00ff) << 8) | Int(data[170] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CH1_VALUE_MAX = (Int(data[171] & 0x00ff) << 8) | Int(data[172] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CH1_ALARM_MIN_STATUS = (Int(data[173] & 0x00ff) << 8) | Int(data[174] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CH1_ALARM_MAX_STATUS = (Int(data[175] & 0x00ff) << 8) | Int(data[176] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CH1_ALARM_STATUS = (Int(data[177] & 0x00ff) << 8) | Int(data[178] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_32 = (Int(data[179] & 0x00ff) << 8) | Int(data[180] & 0x00ff)
+        
+        WifiDevice.shared.WIFI_HR_SS_CH2_STATUS = (Int(data[181] & 0x00ff) << 8) | Int(data[182] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CH2_VALUE = (Int(CShort(data[183]) & 0x00ff) << 8) | Int(CShort(data[184]) & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CH2_VALUE_MIN = (Int(data[185] & 0x00ff) << 8) | Int(data[186] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CH2_VALUE_MAX = (Int(data[187] & 0x00ff) << 8) | Int(data[188] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CH2_ALARM_MIN_STATUS = (Int(data[189] & 0x00ff) << 8) | Int(data[190] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CH2_ALARM_MAX_STATUS = (Int(data[191] & 0x00ff) << 8) | Int(data[192] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CH2_ALARM_STATUS = (Int(data[193] & 0x00ff) << 8) | Int(data[194] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_34 = (Int(data[195] & 0x00ff) << 8) | Int(data[196] & 0x00ff)
+        
+        WifiDevice.shared.WIFI_HR_SS_CH3_STATUS = (Int(data[197] & 0x00ff) << 8) | Int(data[198] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CH3_VALUE = (Int(CShort(data[199]) & 0x00ff) << 8) | Int(CShort(data[200]) & 0x00ff) //NEGATIVO
+        WifiDevice.shared.WIFI_HR_SS_CH3_VALUE_MIN = (Int(data[201] & 0x00ff) << 8) | Int(data[202] & 0x00ff)
+        
+        
+    }
+    
+    func parseStatus2(data: [UInt8]){
+        
+        WifiDevice.shared.WIFI_HR_SS_CH3_VALUE_MAX = (Int(data[3] & 0x00ff) << 8) | Int(data[4] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CH3_ALARM_MAX_STATUS = (Int(data[5] & 0x00ff) << 8) | Int(data[6] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_CH3_ALARM_STATUS = (Int((data[7] & 0x00ff) << 8) | Int(data[8] & 0x00ff))
+      
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_36 = (Int((data[9] & 0x00ff) << 8) | Int(data[10] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_37 = (Int((data[11] & 0x00ff) << 8) | Int(data[12] & 0x00ff))
+        
+        WifiDevice.shared.WIFI_HR_SS_BATTERY_VOLTAGE_VALUE = (Int(data[13] & 0x00ff) << 8) | Int(data[14] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_BATTERY_VOLTAGE_VALUE_MIN = (Int(data[15] & 0x00ff) << 8) | Int(data[16] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_BATTERY_VOLTAGE_VALUE_MAX = (Int(data[17] & 0x00ff) << 8) | Int(data[18] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_BATTERY_PERCENTAGE_OF_LIFE = (Int(data[19] & 0x00ff) << 8) | Int(data[20] & 0x00ff)
+        
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_38 = (Int((data[21] & 0x00ff) << 8) | Int(data[22] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_39 = (Int((data[23] & 0x00ff) << 8) | Int(data[24] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_40 = (Int((data[25] & 0x00ff) << 8) | Int(data[26] & 0x00ff))
+        
+        WifiDevice.shared.WIFI_HR_SS_EXTERNAL_VOLTAGE_VALUE = (Int(data[27] & 0x00ff) << 8) | Int(data[28] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_EXTERNAL_VOLTAGE_VALUE_MIN = (Int(data[29] & 0x00ff) << 8) | Int(data[30] & 0x00ff)
+        WifiDevice.shared.WIFI_HR_SS_EXTERNAL_VOLTAGE_VALUE_MAX = (Int(data[31] & 0x00ff) << 8) | Int(data[32] & 0x00ff)
+        
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_52 = (Int((data[33] & 0x00ff) << 8) | Int(data[34] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_53 = (Int((data[35] & 0x00ff) << 8) | Int(data[36] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_54 = (Int((data[37] & 0x00ff) << 8) | Int(data[38] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_55 = (Int((data[39] & 0x00ff) << 8) | Int(data[40] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_56 = (Int((data[41] & 0x00ff) << 8) | Int(data[42] & 0x00ff))
+       
+        WifiDevice.shared.WIFI_HR_SS_WIFI_LAST_UPDATE_YEAR  = (Int((data[43] & 0x00ff) << 8) | Int(data[44] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_LAST_UPDATE_MONTH  = (Int((data[45] & 0x00ff) << 8) | Int(data[46] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_LAST_UPDATE_DAY  = (Int((data[47] & 0x00ff) << 8) | Int(data[48] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_LAST_UPDATE_HOUR  = (Int((data[49] & 0x00ff) << 8) | Int(data[50] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_LAST_UPDATE_MINUTE  = (Int((data[51] & 0x00ff) << 8) | Int(data[52] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_LAST_UPDATE_SECOND  = (Int((data[53] & 0x00ff) << 8) | Int(data[54] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_FTP_LAST_UPDATE_TIME_H  = (Int((data[55] & 0x00ff) << 8) | Int(data[56] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_FTP_LAST_UPDATE_TIME_L  = (Int((data[57] & 0x00ff) << 8) | Int(data[58] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_CLOUD_LAST_UPDATE_TIME_H  = (Int((data[59] & 0x00ff) << 8) | Int(data[60] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_CLOUD_LAST_UPDATE_TIME_L  = (Int((data[61] & 0x00ff) << 8) | Int(data[62] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_1_BACKUPED  = (Int((data[63] & 0x00ff) << 8) | Int(data[64] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_2_BACKUPED  = (Int((data[65] & 0x00ff) << 8) | Int(data[66] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_3_BACKUPED  = (Int((data[67] & 0x00ff) << 8) | Int(data[68] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_4_BACKUPED  = (Int((data[69] & 0x00ff) << 8) | Int(data[70] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_5_BACKUPED  = (Int((data[71] & 0x00ff) << 8) | Int(data[72] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_IRSS  = (Int((data[73] & 0x00ff) << 8) | Int(data[74] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_ERROR_COM  = (Int((data[75] & 0x00ff) << 8) | Int(data[76] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_ERROR_MQTT  = (Int((data[77] & 0x00ff) << 8) | Int(data[78] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_ERROR_MODBUS  = (Int((data[79] & 0x00ff) << 8) | Int(data[80] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_IP_ADDR_0_1  = (Int((data[81] & 0x00ff) << 8) | Int(data[82] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_IP_ADDR_2_3  = (Int((data[83] & 0x00ff) << 8) | Int(data[84] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_MASK_ADDR_0_1  = (Int((data[85] & 0x00ff) << 8) | Int(data[86] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_MASK_ADDR_2_3  = (Int((data[87] & 0x00ff) << 8) | Int(data[88] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_GATEWAY_ADDR_0_1  = (Int((data[89] & 0x00ff) << 8) | Int(data[90] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_GATEWAY_ADDR_2_3  = (Int((data[91] & 0x00ff) << 8) | Int(data[92] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_11  = (Int((data[93] & 0x00ff) << 8) | Int(data[94] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_12  = (Int((data[95] & 0x00ff) << 8) | Int(data[96] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_MODULE_FIRMWARE_VER  = (Int((data[97] & 0x00ff) << 8) | Int(data[98] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_14  = (Int((data[99] & 0x00ff) << 8) | Int(data[100] & 0x00ff))
+        
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_15  = (Int((data[101] & 0x00ff) << 8) | Int(data[102] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_LAST_STATUS_YEAR  = (Int((data[103] & 0x00ff) << 8) | Int(data[104] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_LAST_STATUS_MONTH_BROKER  = (Int((data[105] & 0x00ff) << 8) | Int(data[106] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_LAST_STATUS_DAY_BROKER  = (Int((data[107] & 0x00ff) << 8) | Int(data[108] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_LAST_STATUS_HOUR_BROKER  = (Int((data[109] & 0x00ff) << 8) | Int(data[110] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_LAST_STATUS_MINUTE_BROKER  = (Int((data[111] & 0x00ff) << 8) | Int(data[112] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_LAST_STATUS_SECOND_BROKER  = (Int((data[113] & 0x00ff) << 8) | Int(data[114] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_22  = (Int((data[115] & 0x00ff) << 8) | Int(data[116] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_23  = (Int((data[117] & 0x00ff) << 8) | Int(data[118] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_LAST_STATUS_YEAR_FTP  = (Int((data[119] & 0x00ff) << 8) | Int(data[120] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_LAST_STATUS_MONTH_FTP  = (Int((data[121] & 0x00ff) << 8) | Int(data[122] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_LAST_STATUS_DAY_FTP  = (Int((data[123] & 0x00ff) << 8) | Int(data[124] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_LAST_STATUS_HOUR_FTP  = (Int((data[125] & 0x00ff) << 8) | Int(data[126] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_LAST_STATUS_MINUTE_FTP  = (Int((data[127] & 0x00ff) << 8) | Int(data[128] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_LAST_STATUS_SECOND_FTP  = (Int((data[129] & 0x00ff) << 8) | Int(data[130] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_30  = (Int((data[131] & 0x00ff) << 8) | Int(data[132] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_31      = (Int((data[133] & 0x00ff) << 8) | Int(data[134] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_LAST_STATUS_YEAR_CLOUD  = (Int((data[135] & 0x00ff) << 8) | Int(data[136] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_LAST_STATUS_MONTH_CLOUD  = (Int((data[137] & 0x00ff) << 8) | Int(data[138] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_LAST_STATUS_DAY_CLOUD  = (Int((data[139] & 0x00ff) << 8) | Int(data[140] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_LAST_STATUS_HOUR_CLOUD  = (Int((data[141] & 0x00ff) << 8) | Int(data[142] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_LAST_STATUS_MINUTE_CLOUD  = (Int((data[143] & 0x00ff) << 8) | Int(data[144] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_WIFI_LAST_STATUS_SECOND_CLOUD  = (Int((data[145] & 0x00ff) << 8) | Int(data[146] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_38  = (Int((data[147] & 0x00ff) << 8) | Int(data[148] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_39  = (Int((data[149] & 0x00ff) << 8) | Int(data[150] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_40  = (Int((data[151] & 0x00ff) << 8) | Int(data[152] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_41  = (Int((data[153] & 0x00ff) << 8) | Int(data[154] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_42  = (Int((data[155] & 0x00ff) << 8) | Int(data[156] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_43  = (Int((data[157] & 0x00ff) << 8) | Int(data[158] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_44  = (Int((data[159] & 0x00ff) << 8) | Int(data[160] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_45  = (Int((data[161] & 0x00ff) << 8) | Int(data[162] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_46  = (Int((data[163] & 0x00ff) << 8) | Int(data[164] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_47  = (Int((data[165] & 0x00ff) << 8) | Int(data[166] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_48  = (Int((data[167] & 0x00ff) << 8) | Int(data[168] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_49  = (Int((data[169] & 0x00ff) << 8) | Int(data[170] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_50  = (Int((data[171] & 0x00ff) << 8) | Int(data[172] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_51  = (Int((data[173] & 0x00ff) << 8) | Int(data[174] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_52  = (Int((data[175] & 0x00ff) << 8) | Int(data[176] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_53  = (Int((data[177] & 0x00ff) << 8) | Int(data[178] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_54  = (Int((data[179] & 0x00ff) << 8) | Int(data[180] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_55  = (Int((data[181] & 0x00ff) << 8) | Int(data[182] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_56  = (Int((data[183] & 0x00ff) << 8) | Int(data[184] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_57  = (Int((data[185] & 0x00ff) << 8) | Int(data[186] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_58  = (Int((data[187] & 0x00ff) << 8) | Int(data[188] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_59  = (Int((data[189] & 0x00ff) << 8) | Int(data[190] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_60  = (Int((data[191] & 0x00ff) << 8) | Int(data[192] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_61  = (Int((data[193] & 0x00ff) << 8) | Int(data[194] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_62  = (Int((data[195] & 0x00ff) << 8) | Int(data[196] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_63  = (Int((data[197] & 0x00ff) << 8) | Int(data[198] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_64  = (Int((data[199] & 0x00ff) << 8) | Int(data[200] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_65  = (Int((data[201] & 0x00ff) << 8) | Int(data[202] & 0x00ff))
+        
+        
+    }
+    
+    func parseStatus3(data: [UInt8]){
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_65  = (Int((data[3] & 0x00ff) << 8) | Int(data[4] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_66  = (Int((data[5] & 0x00ff) << 8) | Int(data[6] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_67  = (Int((data[7] & 0x00ff) << 8) | Int(data[8] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_68  = (Int((data[9] & 0x00ff) << 8) | Int(data[10] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_69  = (Int((data[11] & 0x00ff) << 8) | Int(data[12] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_70  = (Int((data[13] & 0x00ff) << 8) | Int(data[14] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_71  = (Int((data[15] & 0x00ff) << 8) | Int(data[16] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_72  = (Int((data[17] & 0x00ff) << 8) | Int(data[18] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_73  = (Int((data[19] & 0x00ff) << 8) | Int(data[20] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_74  = (Int((data[21] & 0x00ff) << 8) | Int(data[22] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_75  = (Int((data[23] & 0x00ff) << 8) | Int(data[24] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_76  = (Int((data[25] & 0x00ff) << 8) | Int(data[26] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_77  = (Int((data[27] & 0x00ff) << 8) | Int(data[28] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_78  = (Int((data[29] & 0x00ff) << 8) | Int(data[30] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_79  = (Int((data[31] & 0x00ff) << 8) | Int(data[32] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_80  = (Int((data[33] & 0x00ff) << 8) | Int(data[34] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_81  = (Int((data[35] & 0x00ff) << 8) | Int(data[36] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_82  = (Int((data[37] & 0x00ff) << 8) | Int(data[38] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_83  = (Int((data[39] & 0x00ff) << 8) | Int(data[40] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_84  = (Int((data[41] & 0x00ff) << 8) | Int(data[42] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_85  = (Int((data[43] & 0x00ff) << 8) | Int(data[44] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_86  = (Int((data[45] & 0x00ff) << 8) | Int(data[46] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_87  = (Int((data[47] & 0x00ff) << 8) | Int(data[48] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_88  = (Int((data[49] & 0x00ff) << 8) | Int(data[50] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_89  = (Int((data[51] & 0x00ff) << 8) | Int(data[52] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_90  = (Int((data[53] & 0x00ff) << 8) | Int(data[54] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_91  = (Int((data[55] & 0x00ff) << 8) | Int(data[56] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_92  = (Int((data[57] & 0x00ff) << 8) | Int(data[58] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_93  = (Int((data[59] & 0x00ff) << 8) | Int(data[60] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_94  = (Int((data[61] & 0x00ff) << 8) | Int(data[62] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_95  = (Int((data[63] & 0x00ff) << 8) | Int(data[64] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_96  = (Int((data[65] & 0x00ff) << 8) | Int(data[66] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_97  = (Int((data[67] & 0x00ff) << 8) | Int(data[68] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_98  = (Int((data[69] & 0x00ff) << 8) | Int(data[70] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_99  = (Int((data[71] & 0x00ff) << 8) | Int(data[72] & 0x00ff))
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_100  = (Int((data[73] & 0x00ff) << 8) | Int(data[74] & 0x00ff))
+    }
+}
