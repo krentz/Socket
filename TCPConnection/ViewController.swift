@@ -13,6 +13,8 @@ import SwiftSocket
 
 class ViewController: UIViewController {
 
+    var client: TCPClient!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -24,15 +26,27 @@ class ViewController: UIViewController {
         IJProgressView.shared.hideProgressView()
     }
     
+    func parseByte(data: [UInt8], size: Int){
+        var values : [CShort] = []
+        var cont = 3
+        for _ in 0 ... size{
+            values.append(CShort( ((CShort(data[cont])) << 8) | (CShort(data[cont+1])) ) )
+            cont = cont + 2
+        }
+        
+    }
+    
     @IBAction func getRegisters(_ sender: Any) {
         IJProgressView.shared.showProgressView(view)
         self.textView.text = ""
-        let client = TCPClient(address: "10.51.11.21", port: 502)
-        switch client.connect(timeout: 10) {
+        self.client = TCPClient(address: "10.51.10.199", port: 502)
+        
+        switch self.client.connect(timeout: 10) {
         case .success:
-            switch client.send(data: self.sendRHR(addr: 0, size: 100)) {
+            switch self.client.send(data: self.sendRHR(addr: 0, size: 100)) {
             case .success:
-                guard let data = client.read(300, timeout: 10) else { return }
+                guard let data = self.client.read(300, timeout: 10) else { return }
+                self.parseByte(data: data, size: 100)
                 self.textView.text = " \(data)"
                 
                 //IF BIT DE ERRO SETADO RETURN
@@ -40,46 +54,170 @@ class ViewController: UIViewController {
                 
                 StatusParser.shared.parseStatus1(data: data)
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                     
-                    switch client.send(data: self.sendRHR(addr: 100, size: 100)) {
+                    switch self.client.send(data: self.sendRHR(addr: 100, size: 100)) {
                     case .success:
-                        guard let data = client.read(300, timeout: 10) else { return }
+                        guard let data = self.client.read(300, timeout: 10) else { return }
                         
                         //IF BIT DE ERRO SETADO RETURN
                         //ELSE PARSE
                         print(data)
                         StatusParser.shared.parseStatus2(data: data)
                       
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         
-                            switch client.send(data: self.sendRHR(addr: 200 , size: 35)) {
+                            switch self.client.send(data: self.sendRHR(addr: 200 , size: 35)) {
                             case .success:
-                                guard let data = client.read(300, timeout: 10) else { return }
+                                guard let data = self.client.read(300, timeout: 10) else { return }
                                 print("data 3 : \(data)")
                                 StatusParser.shared.parseStatus3(data: data)
-                                client.close()
-                                IJProgressView.shared.hideProgressView()
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                    switch self.client.send(data: self.sendRHR(addr: 1000 , size: 100)) {
+                                    case .success:
+                                        guard let data = self.client.read(300, timeout: 10) else { return }
+                                        print("config 1 : \(data)")
+                                        //StatusParser.shared.parseStatus3(data: data)
+                                        
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                            switch self.client.send(data: self.sendRHR(addr: 1100 , size: 100)) {
+                                            case .success:
+                                                guard let data = self.client.read(300, timeout: 10) else { return }
+                                                print("config 2 : \(data)")
+                                                //StatusParser.shared.parseStatus3(data: data)
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                    switch self.client.send(data: self.sendRHR(addr: 1200 , size: 100)) {
+                                                    case .success:
+                                                        guard let data = self.client.read(300, timeout: 10) else { return }
+                                                        print("config 3 : \(data)")
+                                                        //StatusParser.shared.parseStatus3(data: data)
+                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                            switch self.client.send(data: self.sendRHR(addr: 1300 , size: 100)) {
+                                                            case .success:
+                                                                guard let data = self.client.read(300, timeout: 10) else { return }
+                                                                print("config 4 : \(data)")
+                                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                                    switch self.client.send(data: self.sendRHR(addr: 1400 , size: 100)) {
+                                                                    case .success:
+                                                                        guard let data = self.client.read(300, timeout: 10) else { return }
+                                                                        print("config 5 : \(data)")
+                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                                            switch self.client.send(data: self.sendRHR(addr: 1500 , size: 100)) {
+                                                                            case .success:
+                                                                                guard let data = self.client.read(300, timeout: 10) else { return }
+                                                                                print("config 6 : \(data)")
+                                                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                                                    switch self.client.send(data: self.sendRHR(addr: 1600 , size: 100)) {
+                                                                                    case .success:
+                                                                                        guard let data = self.client.read(300, timeout: 10) else { return }
+                                                                                        print("config 7 : \(data)")
+                                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                                                            switch self.client.send(data: self.sendRHR(addr: 1700 , size: 100)) {
+                                                                                            case .success:
+                                                                                                guard let data = self.client.read(300, timeout: 10) else { return }
+                                                                                                print("config 8 : \(data)")
+                                                                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                                                                    switch self.client.send(data: self.sendRHR(addr: 1800 , size: 100)) {
+                                                                                                    case .success:
+                                                                                                        guard let data = self.client.read(300, timeout: 10) else { return }
+                                                                                                        print("config 9 : \(data)")
+                                                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                                                                            switch self.client.send(data: self.sendRHR(addr: 1900 , size: 100)) {
+                                                                                                            case .success:
+                                                                                                                guard let data = self.client.read(300, timeout: 10) else { return }
+                                                                                                                print("config 10 : \(data)")
+                                                                                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                                                                                    switch self.client.send(data: self.sendRHR(addr: 2000 , size: 95)) {
+                                                                                                                    case .success:
+                                                                                                                        guard let data = self.client.read(300, timeout: 10) else { return }
+                                                                                                                        print("config 11 : \(data)")
+                                                                                                                        self.client.close()
+                                                                                                                        IJProgressView.shared.hideProgressView()
+                                                                                                                    case .failure(let error):
+                                                                                                                        self.client.close()
+                                                                                                                        self.showError()
+                                                                                                                        self.textView.text = "\(error)"
+                                                                                                                    }                                                                                                            }
+                                                                                                            case .failure(let error):
+                                                                                                                self.client.close()
+                                                                                                                self.showError()
+                                                                                                                self.textView.text = "\(error)"
+                                                                                                            }
+                                                                                                        }
+                                                                                                    case .failure(let error):
+                                                                                                        self.client.close()
+                                                                                                        self.showError()
+                                                                                                        self.textView.text = "\(error)"
+                                                                                                    }
+                                                                                                }
+                                                                                            case .failure(let error):
+                                                                                                self.client.close()
+                                                                                                self.showError()
+                                                                                                self.textView.text = "\(error)"
+                                                                                            }
+                                                                                        }
+                                                                                    case .failure(let error):
+                                                                                        self.client.close()
+                                                                                        self.showError()
+                                                                                        self.textView.text = "\(error)"
+                                                                                    }
+                                                                                }
+                                                                            case .failure(let error):
+                                                                                self.client.close()
+                                                                                self.showError()
+                                                                                self.textView.text = "\(error)"
+                                                                            }
+                                                                        }
+                                                                    case .failure(let error):
+                                                                        self.client.close()
+                                                                        self.showError()
+                                                                        self.textView.text = "\(error)"
+                                                                    }
+                                                                }
+                                                            case .failure(let error):
+                                                                self.client.close()
+                                                                self.showError()
+                                                                self.textView.text = "\(error)"
+                                                            }
+                                                        }
+                                                    case .failure(let error):
+                                                        self.client.close()
+                                                        self.showError()
+                                                        self.textView.text = "\(error)"
+                                                    }
+                                                }
+                                            case .failure(let error):
+                                                self.client.close()
+                                                self.showError()
+                                                self.textView.text = "\(error)"
+                                            }
+                                        }
+                                    case .failure(let error):
+                                        self.client.close()
+                                        self.showError()
+                                        self.textView.text = "\(error)"
+                                    }
+                                }
                             case .failure(let error):
-                                client.close()
+                                self.client.close()
                                 self.showError()
                                 self.textView.text = "\(error)"
                             }
                         }
-                        
                     case .failure(let error):
-                        client.close()
+                        self.client.close()
                         self.showError()
                         self.textView.text = "\(error)"
                     }
                 }
             case .failure(let error):
-                client.close()
+                self.client.close()
                 self.showError()
                 self.textView.text = "\(error)"
             }
         case .failure(let error):
-            client.close()
+            self.client.close()
             self.showError()
             self.textView.text = "\(error)"
         }
