@@ -77,14 +77,15 @@ class ViewController: UIViewController {
                                     case .success:
                                         guard let data = self.client.read(300, timeout: 10) else { return }
                                         print("config 1 : \(data)")
-                                        //StatusParser.shared.parseStatus3(data: data)
+                                        ConfigParser.shared.parseConfig1(values: self.parseByte(data: data, size: 100))
                                         
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                             switch self.client.send(data: self.sendRHR(addr: 1100 , size: 100)) {
                                             case .success:
                                                 guard let data = self.client.read(300, timeout: 10) else { return }
                                                 print("config 2 : \(data)")
-                                                //StatusParser.shared.parseStatus3(data: data)
+                                                ConfigParser.shared.parseConfig2(values: self.parseByte(data: data, size: 100))
+                                                
                                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                                     switch self.client.send(data: self.sendRHR(addr: 1200 , size: 100)) {
                                                     case .success:
