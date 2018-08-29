@@ -13,15 +13,15 @@ class ConfigParser {
     static let shared = ConfigParser()
 
     func parseConfig1(values: [CShort]){
-        WifiDevice.shared.WIFI_HR_CS_SETTING_RESTORE_DEFAULT = Int(values[0])
+        WifiDevice.shared.WIFI_HR_CS_SETTING_RESTORE_DEFAULT = Int(values[0]) != 0 ? false : true
         WifiDevice.shared.WIFI_HR_CS_SETTING_ACQUISITION_INTERVAL_LOG_S = Int(values[1])
-        WifiDevice.shared.WIFI_HR_CS_ENABLE_REGISTER_LOG = Int(values[2])
+        WifiDevice.shared.WIFI_HR_CS_ENABLE_REGISTER_LOG = Int(values[2]) != 0 ? false : true
         WifiDevice.shared.WIFI_HR_CS_RESERVED_1 = Int(values[3])
         WifiDevice.shared.WIFI_HR_CS_SETTING_ACQUISITION_INTERVAL_SCAN_S = Int(values[4])
         WifiDevice.shared.WIFI_HR_CS_SETTING_START_MODE = Int(values[5])
         WifiDevice.shared.WIFI_HR_CS_SETTING_STOP_MODE = Int(values[6])
-        WifiDevice.shared.WIFI_HR_CS_SETTING_ERASE_LOG_MEMORY = Int(values[7])
-        WifiDevice.shared.WIFI_HR_CS_SETTING_CONFIGURATION_ONGOING = Int(values[8])
+        WifiDevice.shared.WIFI_HR_CS_SETTING_ERASE_LOG_MEMORY = Int(values[7]) != 0 ? false : true
+        WifiDevice.shared.WIFI_HR_CS_SETTING_CONFIGURATION_ONGOING = Int(values[8]) != 0 ? false : true
         WifiDevice.shared.WIFI_HR_CS_SETTING_YEAR_START_RECORD = Int(values[9])
         WifiDevice.shared.WIFI_HR_CS_SETTING_MONTH_START_RECORD = Int(values[10])
         WifiDevice.shared.WIFI_HR_CS_SETTING_DAY_START_RECORD = Int(values[11])
@@ -55,7 +55,7 @@ class ConfigParser {
         WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_8 = Int(values[39])
         WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_9 = Int(values[40])
         WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_10 = Int(values[41])
-        WifiDevice.shared.WIFI_HR_CS_SETTING_PM = Int(values[42])
+        WifiDevice.shared.WIFI_HR_CS_SETTING_PM = Int(values[42]) != 0 ? false : true // 0 24
         WifiDevice.shared.WIFI_HR_CS_SETTING_GMT = Int(values[43])
         WifiDevice.shared.WIFI_HR_CS_SETTING_YEAR = Int(values[44])
         WifiDevice.shared.WIFI_HR_CS_SETTING_MONTH = Int(values[45])
@@ -64,8 +64,8 @@ class ConfigParser {
         WifiDevice.shared.WIFI_HR_CS_SETTING_MINUTE = Int(values[48])
         WifiDevice.shared.WIFI_HR_CS_SETTING_SECOND = Int(values[49])
         WifiDevice.shared.WIFI_HR_CS_RESERVED_16 = Int(values[50])
-        WifiDevice.shared.WIFI_HR_CS_BLE_ENABLED = Int(values[51])
-        WifiDevice.shared.WIFI_HR_CS_BLE_ADVERTISE_MODE = Int(values[52])
+        WifiDevice.shared.WIFI_HR_CS_BLE_ENABLED = Int(values[51]) != 0 ? false : true
+        WifiDevice.shared.WIFI_HR_CS_BLE_ADVERTISE_MODE = Int(values[52]) != 0 ? false : true
         WifiDevice.shared.WIFI_HR_CS_BLE_ADVERTISE_TIME_ms = Int(values[53])
         WifiDevice.shared.WIFI_HR_CS_BLE_DEVICE_NAME_1 = Int(values[54])
         WifiDevice.shared.WIFI_HR_CS_BLE_DEVICE_NAME_2 = Int(values[55])
@@ -99,20 +99,24 @@ class ConfigParser {
         WifiDevice.shared.WIFI_HR_CS_CHD_DECIMAL_POINT = Int(values[83])
         WifiDevice.shared.WIFI_HR_CS_CHD_ALARM_MIN_HYSTERESIS = Int(values[84])
         WifiDevice.shared.WIFI_HR_CS_CHD_ALARM_MAX_HYSTERESIS = Int(values[85])
-        WifiDevice.shared.WIFI_HR_CS_CHD_ALARM_MIN_MAX_CLEAR_STATUS = Int(values[86])
-        WifiDevice.shared.WIFI_HR_CS_CHD_ENABLED = Int(values[87])
+        WifiDevice.shared.WIFI_HR_CS_CHD_ALARM_MIN_MAX_CLEAR_STATUS = Int(values[86]) != 0 ? false : true
+        WifiDevice.shared.WIFI_HR_CS_CHD_ENABLED = Int(values[87]) != 0 ? false : true
         WifiDevice.shared.WIFI_HR_CS_CHD_COUNTING_MODE = Int(values[88])
         WifiDevice.shared.WIFI_HR_CS_CHD_SENSOR_TYPE = Int(values[89])
         WifiDevice.shared.WIFI_HR_CS_CHD_COUNTING_EDGE = Int(values[90])
         WifiDevice.shared.WIFI_HR_CS_CHD_DEBOUNCE_TIME_ms = Int(values[91])
         WifiDevice.shared.WIFI_HR_CS_CHD_SENSOR_FACTOR_float_High = Int(values[92])
         WifiDevice.shared.WIFI_HR_CS_CHD_SENSOR_FACTOR_float_Low = Int(values[93])
+        WifiDevice.shared.WIFI_HR_CS_CHD_SENSOR_FACTOR_float = Float( (WifiDevice.shared.WIFI_HR_CS_CHD_SENSOR_FACTOR_float_High! << 16) | (WifiDevice.shared.WIFI_HR_CS_CHD_SENSOR_FACTOR_float_Low! & 0xffff) )
+        
         WifiDevice.shared.WIFI_HR_CS_CHD_SENSOR_UNIT = Int(values[94])
         WifiDevice.shared.WIFI_HR_CS_CHD_USER_SCALE_FACTOR_float_High = Int(values[95])
         WifiDevice.shared.WIFI_HR_CS_CHD_USER_SCALE_FACTOR_float_Low = Int(values[96])
+        WifiDevice.shared.WIFI_HR_CS_CHD_USER_SCALE_FACTOR_float = Float( (WifiDevice.shared.WIFI_HR_CS_CHD_SENSOR_FACTOR_float_High! << 16) | (WifiDevice.shared.WIFI_HR_CS_CHD_SENSOR_FACTOR_float_Low! & 0xffff) )
+        
         WifiDevice.shared.WIFI_HR_CS_CHD_USER_UNIT = Int(values[97])
-        WifiDevice.shared.WIFI_HR_CS_CHD_ENABLE_ALARM_MIN = Int(values[98])
-        WifiDevice.shared.WIFI_HR_CS_CHD_ENABLE_ALARM_MAX = Int(values[99])
+        WifiDevice.shared.WIFI_HR_CS_CHD_ENABLE_ALARM_MIN = Int(values[98]) != 0 ? false : true
+        WifiDevice.shared.WIFI_HR_CS_CHD_ENABLE_ALARM_MAX = Int(values[99]) != 0 ? false : true
     }
     func parseConfig2(values: [CShort]){
         WifiDevice.shared.WIFI_HR_CS_CHD_ALARM_MIN = Int(values[0])
@@ -130,14 +134,14 @@ class ConfigParser {
         WifiDevice.shared.WIFI_HR_CS_CHD_TAG_UNIT_3 = Int(values[12])
         WifiDevice.shared.WIFI_HR_CS_CHD_TAG_UNIT_4 = Int(values[13])
         WifiDevice.shared.WIFI_HR_CS_FREQUENCY_TO_FILTER = Int(values[14])
-        WifiDevice.shared.WIFI_HR_CS_CH1_ENABLE = Int(values[15])
+        WifiDevice.shared.WIFI_HR_CS_CH1_ENABLE = Int(values[15]) != 0 ? false : true
         WifiDevice.shared.WIFI_HR_CS_CH1_MODE = Int(values[16])
         WifiDevice.shared.WIFI_HR_CS_CH1_SENSOR_TYPE = Int(values[17])
         WifiDevice.shared.WIFI_HR_CS_CH1_UNIT = Int(values[18])
         WifiDevice.shared.WIFI_HR_CS_CH1_RANGE_MIN = Int(values[19])
         WifiDevice.shared.WIFI_HR_CS_CH1_RANGE_MAX = Int(values[20])
-        WifiDevice.shared.WIFI_HR_CS_CH1_ENABLE_ALRM_MIN = Int(values[21])
-        WifiDevice.shared.WIFI_HR_CS_CH1_ENABLE_ALRM_MAX = Int(values[22])
+        WifiDevice.shared.WIFI_HR_CS_CH1_ENABLE_ALRM_MIN = Int(values[21]) != 0 ? false : true
+        WifiDevice.shared.WIFI_HR_CS_CH1_ENABLE_ALRM_MAX = Int(values[22]) != 0 ? false : true
         WifiDevice.shared.WIFI_HR_CS_CH1_ALARM_MIN = Int(values[23])
         WifiDevice.shared.WIFI_HR_CS_CH1_ALARM_MAX = Int(values[24])
         WifiDevice.shared.WIFI_HR_CS_CH1_DECIMAL_POINT = Int(values[25])
@@ -180,17 +184,17 @@ class ConfigParser {
         WifiDevice.shared.WIFI_HR_CS_CH1_CUSTOM_CALIB_PADRAO_10 = Int(values[62])
         WifiDevice.shared.WIFI_HR_CS_CH1_ALARM_MIN_HYSTERESIS = Int(values[63])
         WifiDevice.shared.WIFI_HR_CS_CH1_ALARM_MAX_HYSTERESIS = Int(values[64])
-        WifiDevice.shared.WIFI_HR_CS_CH1_ALARM_MIN_MAX_CLEAR_STATUS = Int(values[65])
+        WifiDevice.shared.WIFI_HR_CS_CH1_ALARM_MIN_MAX_CLEAR_STATUS = Int(values[65]) != 0 ? false : true
         WifiDevice.shared.WIFI_HR_CS_RESERVED_33 = Int(values[66])
         WifiDevice.shared.WIFI_HR_CS_RESERVED_34 = Int(values[67])
-        WifiDevice.shared.WIFI_HR_CS_CH2_ENABLE = Int(values[68])
+        WifiDevice.shared.WIFI_HR_CS_CH2_ENABLE = Int(values[68]) != 0 ? false : true
         WifiDevice.shared.WIFI_HR_CS_CH2_MODE = Int(values[69])
         WifiDevice.shared.WIFI_HR_CS_CH2_SENSOR_TYPE = Int(values[70])
         WifiDevice.shared.WIFI_HR_CS_CH2_UNIT = Int(values[71])
         WifiDevice.shared.WIFI_HR_CS_CH2_RANGE_MIN = Int(values[72])
         WifiDevice.shared.WIFI_HR_CS_CH2_RANGE_MAX = Int(values[73])
-        WifiDevice.shared.WIFI_HR_CS_CH2_ENABLE_ALRM_MIN = Int(values[74])
-        WifiDevice.shared.WIFI_HR_CS_CH2_ENABLE_ALRM_MAX = Int(values[75])
+        WifiDevice.shared.WIFI_HR_CS_CH2_ENABLE_ALRM_MIN = Int(values[74]) != 0 ? false : true
+        WifiDevice.shared.WIFI_HR_CS_CH2_ENABLE_ALRM_MAX = Int(values[75]) != 0 ? false : true
         WifiDevice.shared.WIFI_HR_CS_CH2_ALARM_MIN = Int(values[76])
         WifiDevice.shared.WIFI_HR_CS_CH2_ALARM_MAX = Int(values[77])
         WifiDevice.shared.WIFI_HR_CS_CH2_DECIMAL_POINT = Int(values[78])
@@ -235,17 +239,17 @@ class ConfigParser {
         WifiDevice.shared.WIFI_HR_CS_CH2_CUSTOM_CALIB_PADRAO_10 = Int(values[15])
         WifiDevice.shared.WIFI_HR_CS_CH2_ALARM_MIN_HYSTERESIS = Int(values[16])
         WifiDevice.shared.WIFI_HR_CS_CH2_ALARM_MAX_HYSTERESIS = Int(values[17])
-        WifiDevice.shared.WIFI_HR_CS_CH2_ALARM_MIN_MAX_CLEAR_STATUS = Int(values[18])
+        WifiDevice.shared.WIFI_HR_CS_CH2_ALARM_MIN_MAX_CLEAR_STATUS = Int(values[18]) != 0 ? false : true
         WifiDevice.shared.WIFI_HR_CS_RESERVED_41 = Int(values[19])
         WifiDevice.shared.WIFI_HR_CS_RESERVED_42 = Int(values[20])
-        WifiDevice.shared.WIFI_HR_CS_CH3_ENABLE = Int(values[21])
+        WifiDevice.shared.WIFI_HR_CS_CH3_ENABLE = Int(values[21]) != 0 ? false : true
         WifiDevice.shared.WIFI_HR_CS_CH3_MODE = Int(values[22])
         WifiDevice.shared.WIFI_HR_CS_CH3_SENSOR_TYPE = Int(values[23])
         WifiDevice.shared.WIFI_HR_CS_CH3_UNIT = Int(values[24])
         WifiDevice.shared.WIFI_HR_CS_CH3_RANGE_MIN = Int(values[25])
         WifiDevice.shared.WIFI_HR_CS_CH3_RANGE_MAX = Int(values[26])
-        WifiDevice.shared.WIFI_HR_CS_CH3_ENABLE_ALRM_MIN = Int(values[27])
-        WifiDevice.shared.WIFI_HR_CS_CH3_ENABLE_ALRM_MAX = Int(values[28])
+        WifiDevice.shared.WIFI_HR_CS_CH3_ENABLE_ALRM_MIN = Int(values[27]) != 0 ? false : true
+        WifiDevice.shared.WIFI_HR_CS_CH3_ENABLE_ALRM_MAX = Int(values[28]) != 0 ? false : true
         WifiDevice.shared.WIFI_HR_CS_CH3_ALARM_MIN = Int(values[29])
         WifiDevice.shared.WIFI_HR_CS_CH3_ALARM_MAX = Int(values[30])
         WifiDevice.shared.WIFI_HR_CS_CH3_DECIMAL_POINT = Int(values[31])
@@ -288,7 +292,7 @@ class ConfigParser {
         WifiDevice.shared.WIFI_HR_CS_CH3_CUSTOM_CALIB_PADRAO_10 = Int(values[68])
         WifiDevice.shared.WIFI_HR_CS_CH3_ALARM_MIN_HYSTERESIS = Int(values[69])
         WifiDevice.shared.WIFI_HR_CS_CH3_ALARM_MAX_HYSTERESIS = Int(values[70])
-        WifiDevice.shared.WIFI_HR_CS_CH3_ALARM_MIN_MAX_CLEAR_STATUS = Int(values[71])
+        WifiDevice.shared.WIFI_HR_CS_CH3_ALARM_MIN_MAX_CLEAR_STATUS = Int(values[71]) != 0 ? false : true
         WifiDevice.shared.WIFI_HR_CS_RESERVED_49 = Int(values[72])
         WifiDevice.shared.WIFI_HR_CS_RESERVED_50 = Int(values[73])
         WifiDevice.shared.WIFI_HR_CS_RESERVED_51 = Int(values[74])
@@ -296,7 +300,7 @@ class ConfigParser {
         WifiDevice.shared.WIFI_HR_CS_RESERVED_53 = Int(values[76])
         WifiDevice.shared.WIFI_HR_CS_RESERVED_54 = Int(values[77])
         WifiDevice.shared.WIFI_HR_CS_RESERVED_55 = Int(values[78])
-        WifiDevice.shared.WIFI_HR_CS_WIFI_ENABLE = Int(values[79])
+        WifiDevice.shared.WIFI_HR_CS_WIFI_ENABLE = Int(values[21]) != 0 ? false : true
         WifiDevice.shared.WIFI_HR_CS_WIFI_SSID_0_1 = Int(values[80])
         WifiDevice.shared.WIFI_HR_CS_WIFI_SSID_2_3 = Int(values[81])
         WifiDevice.shared.WIFI_HR_CS_WIFI_SSID_4_5 = Int(values[82])
@@ -336,7 +340,7 @@ class ConfigParser {
         WifiDevice.shared.WIFI_HR_CS_WIFI_PASS_34_35 = Int(values[14])
         WifiDevice.shared.WIFI_HR_CS_WIFI_PASS_36_37 = Int(values[15])
         WifiDevice.shared.WIFI_HR_CS_WIFI_PASS_38_39 = Int(values[16])
-        WifiDevice.shared.WIFI_HR_CS_WIFI_IP_STATIC_DHCP = Int(values[17])
+        WifiDevice.shared.WIFI_HR_CS_WIFI_IP_STATIC_DHCP = Int(values[17]) != 0 ? false : true
         WifiDevice.shared.WIFI_HR_CS_WIFI_IP_ADDR_0_1 = Int(values[18])
         WifiDevice.shared.WIFI_HR_CS_WIFI_IP_ADDR_2_3 = Int(values[19])
         WifiDevice.shared.WIFI_HR_CS_WIFI_IP_MASK_0_1 = Int(values[20])
@@ -365,7 +369,7 @@ class ConfigParser {
         WifiDevice.shared.WIFI_HR_CS_WIFI_HASH_34_35 = Int(values[43])
         WifiDevice.shared.WIFI_HR_CS_WIFI_HASH_36_37 = Int(values[44])
         WifiDevice.shared.WIFI_HR_CS_WIFI_HASH_38_39 = Int(values[45])
-        WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_ENABLE = Int(values[46])
+        WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_ENABLE = Int(values[46]) != 0 ? false : true
         WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_SERVICE_PORT = Int(values[47])
         WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_QOS = Int(values[48])
         WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_00_01 = Int(values[49])
@@ -440,10 +444,10 @@ class ConfigParser {
         WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_34_35 = Int(values[16])
         WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_36_37 = Int(values[17])
         WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_38_39 = Int(values[18])
-        WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_JSON_TIMESTAMP = Int(values[19])
+        WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_JSON_TIMESTAMP = Int(values[19]) != 0 ? false : true
         WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_JSON_STRUCTURE_STATIC = Int(values[20])
-        WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_JSON_BOOL_FORMAT = Int(values[21])
-        WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_CLEAN_MODE = Int(values[22])
+        WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_JSON_BOOL_FORMAT = Int(values[21]) != 0 ? false : true
+        WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_CLEAN_MODE = Int(values[22]) != 0 ? false : true
         WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_TLS_TYPE = Int(values[23])
         WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_PERMISSION = Int(values[24])
         WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_RESERVED_02 = Int(values[25])
@@ -457,7 +461,7 @@ class ConfigParser {
         WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_RESERVED_10 = Int(values[33])
         WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_RESERVED_11 = Int(values[34])
         WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_RESERVED_12 = Int(values[35])
-        WifiDevice.shared.WIFI_HR_CS_WIFI_MODBUS_TCP_ENABLED = Int(values[36])
+        WifiDevice.shared.WIFI_HR_CS_WIFI_MODBUS_TCP_ENABLED = Int(values[36]) != 0 ? false : true
         WifiDevice.shared.WIFI_HR_CS_WIFI_MODBUS_TCP_PORT = Int(values[37])
         WifiDevice.shared.WIFI_HR_CS_WIFI_MODBUS_TCP_PERMISSION = Int(values[38])
         WifiDevice.shared.WIFI_HR_CS_WIFI_MODBUS_TCP_RESERVED_1 = Int(values[39])
@@ -468,7 +472,7 @@ class ConfigParser {
         WifiDevice.shared.WIFI_HR_CS_WIFI_MODBUS_TCP_RESERVED_6 = Int(values[44])
         WifiDevice.shared.WIFI_HR_CS_WIFI_MODBUS_TCP_RESERVED_7 = Int(values[45])
         WifiDevice.shared.WIFI_HR_CS_WIFI_MODBUS_TCP_RESERVED_8 = Int(values[46])
-        WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_ENABLED = Int(values[47])
+        WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_ENABLED = Int(values[47]) != 0 ? false : true
         WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_PORT = Int(values[48])
         WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SERVER_TYPE = Int(values[49])
         WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_ARRAY_CONTACTS_ENABLED = Int(values[50])
@@ -932,7 +936,7 @@ class ConfigParser {
         WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RESERVED_54 = Int(values[99])
     }
     func parseConfig10(values: [CShort]){
-        WifiDevice.shared.WIFI_HR_CS_WIFI_WEBPAGE_ENABLED = Int(values[0])
+        WifiDevice.shared.WIFI_HR_CS_WIFI_WEBPAGE_ENABLED = Int(values[21]) != 0 ? false : true
         WifiDevice.shared.WIFI_HR_CS_WIFI_WEBPAGE_PORT = Int(values[1])
         WifiDevice.shared.WIFI_HR_CS_WIFI_WEBPAGE_REFRESH_TIME = Int(values[2])
         WifiDevice.shared.WIFI_HR_CS_WIFI_WEBPAGE_RESERVED_01 = Int(values[3])
@@ -945,7 +949,7 @@ class ConfigParser {
         WifiDevice.shared.WIFI_HR_CS_WIFI_WEBPAGE_RESERVED_08 = Int(values[10])
         WifiDevice.shared.WIFI_HR_CS_WIFI_WEBPAGE_RESERVED_09 = Int(values[11])
         WifiDevice.shared.WIFI_HR_CS_WIFI_WEBPAGE_RESERVED_10 = Int(values[12])
-        WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_ENABLED = Int(values[13])
+        WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_ENABLED = Int(values[21]) != 0 ? false : true
         WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_PORT = Int(values[14])
         WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_SEND_FREQUENCY = Int(values[15])
         WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_FILE_FORMAT = Int(values[16])
@@ -1054,10 +1058,10 @@ class ConfigParser {
         WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_RESERVED_25 = Int(values[17])
         WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_RESERVED_26 = Int(values[18])
         WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_RESERVED_27 = Int(values[19])
-        WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_ENABLED = Int(values[20])
+        WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_ENABLED = Int(values[20]) != 0 ? false : true
         WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_CHANNELS_TO_SEND = Int(values[21])
         WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_FREQUENCY = Int(values[22])
-        WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_UPDATE_CLOCK = Int(values[23])
+        WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_UPDATE_CLOCK = Int(values[23]) != 0 ? false : true
         WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_RESERVED_01 = Int(values[24])
         WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_RESERVED_02 = Int(values[25])
         WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_RESERVED_03 = Int(values[26])

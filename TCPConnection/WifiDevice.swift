@@ -281,15 +281,15 @@ class WifiDevice : NSObject {
      * REGISTRADORES DE CONFIGURAÇÃO WIFI
      */
     //PARSECONFIG 1
-    var    WIFI_HR_CS_SETTING_RESTORE_DEFAULT : Int?
+    var    WIFI_HR_CS_SETTING_RESTORE_DEFAULT : Bool?
     var    WIFI_HR_CS_SETTING_ACQUISITION_INTERVAL_LOG_S : Int?
-    var    WIFI_HR_CS_ENABLE_REGISTER_LOG : Int?
+    var    WIFI_HR_CS_ENABLE_REGISTER_LOG : Bool?
     var    WIFI_HR_CS_RESERVED_1 : Int?
     var    WIFI_HR_CS_SETTING_ACQUISITION_INTERVAL_SCAN_S : Int?
     var    WIFI_HR_CS_SETTING_START_MODE : Int?
     var    WIFI_HR_CS_SETTING_STOP_MODE : Int?
-    var    WIFI_HR_CS_SETTING_ERASE_LOG_MEMORY : Int?
-    var    WIFI_HR_CS_SETTING_CONFIGURATION_ONGOING : Int?
+    var    WIFI_HR_CS_SETTING_ERASE_LOG_MEMORY : Bool?
+    var    WIFI_HR_CS_SETTING_CONFIGURATION_ONGOING : Bool?
     var    WIFI_HR_CS_SETTING_YEAR_START_RECORD : Int?
     var    WIFI_HR_CS_SETTING_MONTH_START_RECORD : Int?
     var    WIFI_HR_CS_SETTING_DAY_START_RECORD : Int?
@@ -323,7 +323,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_SETTING_TITLE_8 : Int?
     var    WIFI_HR_CS_SETTING_TITLE_9 : Int?
     var    WIFI_HR_CS_SETTING_TITLE_10 : Int?
-    var    WIFI_HR_CS_SETTING_PM : Int?
+    var    WIFI_HR_CS_SETTING_PM : Bool?
     var    WIFI_HR_CS_SETTING_GMT : Int?
     var    WIFI_HR_CS_SETTING_YEAR : Int?
     var    WIFI_HR_CS_SETTING_MONTH : Int?
@@ -332,8 +332,8 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_SETTING_MINUTE : Int?
     var    WIFI_HR_CS_SETTING_SECOND : Int?
     var    WIFI_HR_CS_RESERVED_16 : Int?
-    var    WIFI_HR_CS_BLE_ENABLED : Int?
-    var    WIFI_HR_CS_BLE_ADVERTISE_MODE : Int?
+    var    WIFI_HR_CS_BLE_ENABLED : Bool?
+    var    WIFI_HR_CS_BLE_ADVERTISE_MODE : Bool?
     var    WIFI_HR_CS_BLE_ADVERTISE_TIME_ms : Int?
     var    WIFI_HR_CS_BLE_DEVICE_NAME_1 : Int?
     var    WIFI_HR_CS_BLE_DEVICE_NAME_2 : Int?
@@ -367,20 +367,22 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_CHD_DECIMAL_POINT : Int?
     var    WIFI_HR_CS_CHD_ALARM_MIN_HYSTERESIS : Int?
     var    WIFI_HR_CS_CHD_ALARM_MAX_HYSTERESIS : Int?
-    var    WIFI_HR_CS_CHD_ALARM_MIN_MAX_CLEAR_STATUS : Int?
-    var    WIFI_HR_CS_CHD_ENABLED : Int?
+    var    WIFI_HR_CS_CHD_ALARM_MIN_MAX_CLEAR_STATUS : Bool?
+    var    WIFI_HR_CS_CHD_ENABLED : Bool?
     var    WIFI_HR_CS_CHD_COUNTING_MODE : Int?
     var    WIFI_HR_CS_CHD_SENSOR_TYPE : Int?
     var    WIFI_HR_CS_CHD_COUNTING_EDGE : Int?
     var    WIFI_HR_CS_CHD_DEBOUNCE_TIME_ms : Int?
     var    WIFI_HR_CS_CHD_SENSOR_FACTOR_float_High : Int?
     var    WIFI_HR_CS_CHD_SENSOR_FACTOR_float_Low : Int?
+    var    WIFI_HR_CS_CHD_SENSOR_FACTOR_float: Float?
     var    WIFI_HR_CS_CHD_SENSOR_UNIT : Int?
     var    WIFI_HR_CS_CHD_USER_SCALE_FACTOR_float_High : Int?
     var    WIFI_HR_CS_CHD_USER_SCALE_FACTOR_float_Low : Int?
+    var    WIFI_HR_CS_CHD_USER_SCALE_FACTOR_float: Float?
     var    WIFI_HR_CS_CHD_USER_UNIT : Int?
-    var    WIFI_HR_CS_CHD_ENABLE_ALARM_MIN : Int?
-    var    WIFI_HR_CS_CHD_ENABLE_ALARM_MAX : Int?
+    var    WIFI_HR_CS_CHD_ENABLE_ALARM_MIN : Bool?
+    var    WIFI_HR_CS_CHD_ENABLE_ALARM_MAX : Bool?
     var    WIFI_HR_CS_CHD_ALARM_MIN : Int?
     //PARSECONFIG 2
     var    WIFI_HR_CS_CHD_ALARM_MAX : Int?
@@ -397,14 +399,14 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_CHD_TAG_UNIT_3 : Int?
     var    WIFI_HR_CS_CHD_TAG_UNIT_4 : Int?
     var    WIFI_HR_CS_FREQUENCY_TO_FILTER : Int?
-    var    WIFI_HR_CS_CH1_ENABLE : Int?
+    var    WIFI_HR_CS_CH1_ENABLE : Bool?
     var    WIFI_HR_CS_CH1_MODE : Int?
     var    WIFI_HR_CS_CH1_SENSOR_TYPE : Int?
     var    WIFI_HR_CS_CH1_UNIT : Int?
     var    WIFI_HR_CS_CH1_RANGE_MIN : Int?
     var    WIFI_HR_CS_CH1_RANGE_MAX : Int?
-    var    WIFI_HR_CS_CH1_ENABLE_ALRM_MIN : Int?
-    var    WIFI_HR_CS_CH1_ENABLE_ALRM_MAX : Int?
+    var    WIFI_HR_CS_CH1_ENABLE_ALRM_MIN : Bool?
+    var    WIFI_HR_CS_CH1_ENABLE_ALRM_MAX : Bool?
     var    WIFI_HR_CS_CH1_ALARM_MIN : Int?
     var    WIFI_HR_CS_CH1_ALARM_MAX : Int?
     var    WIFI_HR_CS_CH1_DECIMAL_POINT : Int?
@@ -447,17 +449,17 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_CH1_CUSTOM_CALIB_PADRAO_10 : Int?
     var    WIFI_HR_CS_CH1_ALARM_MIN_HYSTERESIS : Int?
     var    WIFI_HR_CS_CH1_ALARM_MAX_HYSTERESIS : Int?
-    var    WIFI_HR_CS_CH1_ALARM_MIN_MAX_CLEAR_STATUS : Int?
+    var    WIFI_HR_CS_CH1_ALARM_MIN_MAX_CLEAR_STATUS : Bool?
     var    WIFI_HR_CS_RESERVED_33 : Int?
     var    WIFI_HR_CS_RESERVED_34 : Int?
-    var    WIFI_HR_CS_CH2_ENABLE : Int?
+    var    WIFI_HR_CS_CH2_ENABLE : Bool?
     var    WIFI_HR_CS_CH2_MODE : Int?
     var    WIFI_HR_CS_CH2_SENSOR_TYPE : Int?
     var    WIFI_HR_CS_CH2_UNIT : Int?
     var    WIFI_HR_CS_CH2_RANGE_MIN : Int?
     var    WIFI_HR_CS_CH2_RANGE_MAX : Int?
-    var    WIFI_HR_CS_CH2_ENABLE_ALRM_MIN : Int?
-    var    WIFI_HR_CS_CH2_ENABLE_ALRM_MAX : Int?
+    var    WIFI_HR_CS_CH2_ENABLE_ALRM_MIN : Bool?
+    var    WIFI_HR_CS_CH2_ENABLE_ALRM_MAX : Bool?
     var    WIFI_HR_CS_CH2_ALARM_MIN : Int?
     var    WIFI_HR_CS_CH2_ALARM_MAX : Int?
     var    WIFI_HR_CS_CH2_DECIMAL_POINT : Int?
@@ -501,17 +503,17 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_CH2_CUSTOM_CALIB_PADRAO_10 : Int?
     var    WIFI_HR_CS_CH2_ALARM_MIN_HYSTERESIS : Int?
     var    WIFI_HR_CS_CH2_ALARM_MAX_HYSTERESIS : Int?
-    var    WIFI_HR_CS_CH2_ALARM_MIN_MAX_CLEAR_STATUS : Int?
+    var    WIFI_HR_CS_CH2_ALARM_MIN_MAX_CLEAR_STATUS : Bool?
     var    WIFI_HR_CS_RESERVED_41 : Int?
     var    WIFI_HR_CS_RESERVED_42 : Int?
-    var    WIFI_HR_CS_CH3_ENABLE : Int?
+    var    WIFI_HR_CS_CH3_ENABLE : Bool?
     var    WIFI_HR_CS_CH3_MODE : Int?
     var    WIFI_HR_CS_CH3_SENSOR_TYPE : Int?
     var    WIFI_HR_CS_CH3_UNIT : Int?
     var    WIFI_HR_CS_CH3_RANGE_MIN : Int?
     var    WIFI_HR_CS_CH3_RANGE_MAX : Int?
-    var    WIFI_HR_CS_CH3_ENABLE_ALRM_MIN : Int?
-    var    WIFI_HR_CS_CH3_ENABLE_ALRM_MAX : Int?
+    var    WIFI_HR_CS_CH3_ENABLE_ALRM_MIN : Bool?
+    var    WIFI_HR_CS_CH3_ENABLE_ALRM_MAX : Bool?
     var    WIFI_HR_CS_CH3_ALARM_MIN : Int?
     var    WIFI_HR_CS_CH3_ALARM_MAX : Int?
     var    WIFI_HR_CS_CH3_DECIMAL_POINT : Int?
@@ -554,7 +556,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_CH3_CUSTOM_CALIB_PADRAO_10 : Int?
     var    WIFI_HR_CS_CH3_ALARM_MIN_HYSTERESIS : Int?
     var    WIFI_HR_CS_CH3_ALARM_MAX_HYSTERESIS : Int?
-    var    WIFI_HR_CS_CH3_ALARM_MIN_MAX_CLEAR_STATUS : Int?
+    var    WIFI_HR_CS_CH3_ALARM_MIN_MAX_CLEAR_STATUS : Bool?
     var    WIFI_HR_CS_RESERVED_49 : Int?
     var    WIFI_HR_CS_RESERVED_50 : Int?
     var    WIFI_HR_CS_RESERVED_51 : Int?
@@ -562,7 +564,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_RESERVED_53 : Int?
     var    WIFI_HR_CS_RESERVED_54 : Int?
     var    WIFI_HR_CS_RESERVED_55 : Int?
-    var    WIFI_HR_CS_WIFI_ENABLE : Int?
+    var    WIFI_HR_CS_WIFI_ENABLE : Bool?
     var    WIFI_HR_CS_WIFI_SSID_0_1 : Int?
     var    WIFI_HR_CS_WIFI_SSID_2_3 : Int?
     var    WIFI_HR_CS_WIFI_SSID_4_5 : Int?
@@ -601,7 +603,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_PASS_34_35 : Int?
     var    WIFI_HR_CS_WIFI_PASS_36_37 : Int?
     var    WIFI_HR_CS_WIFI_PASS_38_39 : Int?
-    var    WIFI_HR_CS_WIFI_IP_STATIC_DHCP : Int?
+    var    WIFI_HR_CS_WIFI_IP_STATIC_DHCP : Bool?
     var    WIFI_HR_CS_WIFI_IP_ADDR_0_1 : Int?
     var    WIFI_HR_CS_WIFI_IP_ADDR_2_3 : Int?
     var    WIFI_HR_CS_WIFI_IP_MASK_0_1 : Int?
@@ -630,7 +632,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_HASH_34_35 : Int?
     var    WIFI_HR_CS_WIFI_HASH_36_37 : Int?
     var    WIFI_HR_CS_WIFI_HASH_38_39 : Int?
-    var    WIFI_HR_CS_WIFI_MQTT_ENABLE : Int?
+    var    WIFI_HR_CS_WIFI_MQTT_ENABLE : Bool?
     var    WIFI_HR_CS_WIFI_MQTT_SERVICE_PORT : Int?
     var    WIFI_HR_CS_WIFI_MQTT_QOS : Int?
     var    WIFI_HR_CS_WIFI_MQTT_BROKER_URL_00_01 : Int?
@@ -704,10 +706,10 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_34_35 : Int?
     var    WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_36_37 : Int?
     var    WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_38_39 : Int?
-    var    WIFI_HR_CS_WIFI_MQTT_JSON_TIMESTAMP : Int?
+    var    WIFI_HR_CS_WIFI_MQTT_JSON_TIMESTAMP : Bool?
     var    WIFI_HR_CS_WIFI_MQTT_JSON_STRUCTURE_STATIC : Int?
-    var    WIFI_HR_CS_WIFI_MQTT_JSON_BOOL_FORMAT : Int?
-    var    WIFI_HR_CS_WIFI_MQTT_CLEAN_MODE : Int?
+    var    WIFI_HR_CS_WIFI_MQTT_JSON_BOOL_FORMAT : Bool?
+    var    WIFI_HR_CS_WIFI_MQTT_CLEAN_MODE : Bool?
     var    WIFI_HR_CS_WIFI_MQTT_TLS_TYPE : Int?
     var    WIFI_HR_CS_WIFI_MQTT_PERMISSION : Int?
     var    WIFI_HR_CS_WIFI_MQTT_RESERVED_02 : Int?
@@ -721,7 +723,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_MQTT_RESERVED_10 : Int?
     var    WIFI_HR_CS_WIFI_MQTT_RESERVED_11 : Int?
     var    WIFI_HR_CS_WIFI_MQTT_RESERVED_12 : Int?
-    var    WIFI_HR_CS_WIFI_MODBUS_TCP_ENABLED : Int?
+    var    WIFI_HR_CS_WIFI_MODBUS_TCP_ENABLED : Bool?
     var    WIFI_HR_CS_WIFI_MODBUS_TCP_PORT : Int?
     var    WIFI_HR_CS_WIFI_MODBUS_TCP_PERMISSION : Int?
     var    WIFI_HR_CS_WIFI_MODBUS_TCP_RESERVED_1 : Int?
@@ -732,7 +734,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_MODBUS_TCP_RESERVED_6 : Int?
     var    WIFI_HR_CS_WIFI_MODBUS_TCP_RESERVED_7 : Int?
     var    WIFI_HR_CS_WIFI_MODBUS_TCP_RESERVED_8 : Int?
-    var    WIFI_HR_CS_WIFI_SMTP_ENABLED : Int?
+    var    WIFI_HR_CS_WIFI_SMTP_ENABLED : Bool?
     var    WIFI_HR_CS_WIFI_SMTP_PORT : Int?
     var    WIFI_HR_CS_WIFI_SMTP_SERVER_TYPE : Int?
     var    WIFI_HR_CS_WIFI_SMTP_ARRAY_CONTACTS_ENABLED : Int?
@@ -1191,7 +1193,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_SMTP_RESERVED_54 : Int?
     
     //PARSE CONFIG 10
-    var    WIFI_HR_CS_WIFI_WEBPAGE_ENABLED : Int?
+    var    WIFI_HR_CS_WIFI_WEBPAGE_ENABLED : Bool?
     var    WIFI_HR_CS_WIFI_WEBPAGE_PORT : Int?
     var    WIFI_HR_CS_WIFI_WEBPAGE_REFRESH_TIME : Int?
     var    WIFI_HR_CS_WIFI_WEBPAGE_RESERVED_01 : Int?
@@ -1204,7 +1206,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_WEBPAGE_RESERVED_08 : Int?
     var    WIFI_HR_CS_WIFI_WEBPAGE_RESERVED_09 : Int?
     var    WIFI_HR_CS_WIFI_WEBPAGE_RESERVED_10 : Int?
-    var    WIFI_HR_CS_WIFI_FTP_ENABLED : Int?
+    var    WIFI_HR_CS_WIFI_FTP_ENABLED : Bool?
     var    WIFI_HR_CS_WIFI_FTP_PORT : Int?
     var    WIFI_HR_CS_WIFI_FTP_SEND_FREQUENCY : Int?
     var    WIFI_HR_CS_WIFI_FTP_FILE_FORMAT : Int?
@@ -1312,10 +1314,10 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_FTP_RESERVED_25 : Int?
     var    WIFI_HR_CS_WIFI_FTP_RESERVED_26 : Int?
     var    WIFI_HR_CS_WIFI_FTP_RESERVED_27 : Int?
-    var    WIFI_HR_CS_WIFI_CLOUD_ENABLED : Int?
+    var    WIFI_HR_CS_WIFI_CLOUD_ENABLED : Bool?
     var    WIFI_HR_CS_WIFI_CLOUD_CHANNELS_TO_SEND : Int?
     var    WIFI_HR_CS_WIFI_CLOUD_FREQUENCY : Int?
-    var    WIFI_HR_CS_WIFI_CLOUD_UPDATE_CLOCK : Int?
+    var    WIFI_HR_CS_WIFI_CLOUD_UPDATE_CLOCK : Bool?
     var    WIFI_HR_CS_WIFI_CLOUD_RESERVED_01 : Int?
     var    WIFI_HR_CS_WIFI_CLOUD_RESERVED_02 : Int?
     var    WIFI_HR_CS_WIFI_CLOUD_RESERVED_03 : Int?
