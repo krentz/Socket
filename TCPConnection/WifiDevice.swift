@@ -89,7 +89,7 @@ class WifiDevice : NSObject {
     
     var WIFI_HR_SS_RESERVED_17 : Int?
     
-    var WIFI_HR_SS_AM_I_IN_BOOTLOADER_MODE : Int? //60
+    var WIFI_HR_SS_AM_I_IN_BOOTLOADER_MODE : Bool? //60
     var WIFI_HR_SS_CHD_LAST_EVENT_YEAR : Int?
     var WIFI_HR_SS_CHD_LAST_EVENT_MONTH : Int?
     var WIFI_HR_SS_CHD_LAST_EVENT_DAY : Int?
@@ -99,7 +99,7 @@ class WifiDevice : NSObject {
     var WIFI_HR_SS_ALARM_STATUS : Int?
     var WIFI_HR_SS_BUZZER_STATUS : Int?
     var WIFI_HR_SS_RESERVED_26 : Int?
-    var WIFI_HR_SS_DIGITAL_OUT_VALUE : Int?
+    var WIFI_HR_SS_DIGITAL_OUT_VALUE : Bool?
     var WIFI_HR_SS_CHD_LAST_EVENT_EDGE : Int?
     
     //Canal Digital
@@ -111,16 +111,16 @@ class WifiDevice : NSObject {
     var WIFI_chd_valueUserFloatStatus : Float?
     var WIFI_HR_SS_CHD_VALUE_MIN : Int?
     var WIFI_HR_SS_CHD_VALUE_MAX : Int?
-    var WIFI_HR_SS_CHD_ALARM_MIN_STATUS : Int?
-    var WIFI_HR_SS_CHD_ALARM_MAX_STATUS : Int?
+    var WIFI_HR_SS_CHD_ALARM_MIN_STATUS : Bool?
+    var WIFI_HR_SS_CHD_ALARM_MAX_STATUS : Bool?
     
     //Canal Analógico 1
     var WIFI_HR_SS_CH1_STATUS : Int? // 81
     var WIFI_HR_SS_CH1_VALUE : Int?
     var WIFI_HR_SS_CH1_VALUE_MIN : Int?
     var WIFI_HR_SS_CH1_VALUE_MAX : Int?
-    var WIFI_HR_SS_CH1_ALARM_MIN_STATUS : Int?
-    var WIFI_HR_SS_CH1_ALARM_MAX_STATUS : Int?
+    var WIFI_HR_SS_CH1_ALARM_MIN_STATUS : Bool?
+    var WIFI_HR_SS_CH1_ALARM_MAX_STATUS : Bool?
     var WIFI_HR_SS_CH1_ALARM_STATUS : Int?
     var WIFI_HR_SS_RESERVED_32 : Int?
     
@@ -129,8 +129,8 @@ class WifiDevice : NSObject {
     var WIFI_HR_SS_CH2_VALUE : Int?
     var WIFI_HR_SS_CH2_VALUE_MIN : Int?
     var WIFI_HR_SS_CH2_VALUE_MAX : Int?
-    var WIFI_HR_SS_CH2_ALARM_MIN_STATUS : Int?
-    var WIFI_HR_SS_CH2_ALARM_MAX_STATUS : Int?
+    var WIFI_HR_SS_CH2_ALARM_MIN_STATUS : Bool?
+    var WIFI_HR_SS_CH2_ALARM_MAX_STATUS : Bool?
     var WIFI_HR_SS_CH2_ALARM_STATUS : Int?
     var WIFI_HR_SS_RESERVED_34 : Int?
     
@@ -139,8 +139,8 @@ class WifiDevice : NSObject {
     var WIFI_HR_SS_CH3_VALUE : Int?
     var WIFI_HR_SS_CH3_VALUE_MIN : Int?
     var WIFI_HR_SS_CH3_VALUE_MAX : Int?
-    var WIFI_HR_SS_CH3_ALARM_MIN_STATUS : Int?
-    var WIFI_HR_SS_CH3_ALARM_MAX_STATUS : Int?
+    var WIFI_HR_SS_CH3_ALARM_MIN_STATUS : Bool?
+    var WIFI_HR_SS_CH3_ALARM_MAX_STATUS : Bool?
     var WIFI_HR_SS_CH3_ALARM_STATUS : Int?
     var WIFI_HR_SS_RESERVED_36 : Int?
     var WIFI_HR_SS_RESERVED_37 : Int?
@@ -280,8 +280,9 @@ class WifiDevice : NSObject {
     /**
      * REGISTRADORES DE CONFIGURAÇÃO WIFI
      */
+    //PARSECONFIG 1
     var    WIFI_HR_CS_SETTING_RESTORE_DEFAULT : Int?
-    var    WIFI_HR_CS_SETTING_ACQUISITION_INTERVAL_LOG_SHR_CS_SETTING_ACQUISITION_INTERVAL_LOG_S : Int?
+    var    WIFI_HR_CS_SETTING_ACQUISITION_INTERVAL_LOG_S : Int?
     var    WIFI_HR_CS_ENABLE_REGISTER_LOG : Int?
     var    WIFI_HR_CS_RESERVED_1 : Int?
     var    WIFI_HR_CS_SETTING_ACQUISITION_INTERVAL_SCAN_S : Int?
@@ -381,7 +382,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_CHD_ENABLE_ALARM_MIN : Int?
     var    WIFI_HR_CS_CHD_ENABLE_ALARM_MAX : Int?
     var    WIFI_HR_CS_CHD_ALARM_MIN : Int?
-    
+    //PARSECONFIG 2
     var    WIFI_HR_CS_CHD_ALARM_MAX : Int?
     var    WIFI_HR_CS_CHD_TAG_1 : Int?
     var    WIFI_HR_CS_CHD_TAG_2 : Int?
@@ -482,7 +483,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_CH2_CUSTOM_CALIB_LOGBOX_3 : Int?
     var    WIFI_HR_CS_CH2_CUSTOM_CALIB_LOGBOX_4 : Int?
     var    WIFI_HR_CS_CH2_CUSTOM_CALIB_LOGBOX_5 : Int?
-  
+    //PARSECONFIG 3
     var    WIFI_HR_CS_CH2_CUSTOM_CALIB_LOGBOX_6 : Int?
     var    WIFI_HR_CS_CH2_CUSTOM_CALIB_LOGBOX_7 : Int?
     var    WIFI_HR_CS_CH2_CUSTOM_CALIB_LOGBOX_8 : Int?
@@ -583,7 +584,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_PASS_2_3 : Int?
     var    WIFI_HR_CS_WIFI_PASS_4_5 : Int?
     var    WIFI_HR_CS_WIFI_PASS_6_7 : Int?
-  
+    //PARSE CONFIG 4
     var    WIFI_HR_CS_WIFI_PASS_8_9 : Int?
     var    WIFI_HR_CS_WIFI_PASS_10_11 : Int?
     var    WIFI_HR_CS_WIFI_PASS_12_13 : Int?
@@ -1396,6 +1397,10 @@ class WifiDevice : NSObject {
     var WIFI_startDate : Date?
     var WIFI_stopDate : Date?
     var WIFI_serialNumber : Int!
+    var WIFI_recordsNumber : Int!
+    var WIFI_freeRecordsNumber : Int!
+    var WIFI_userUnitValue: Float!
+    
     var WIFI_serialNumberAux : Int = 0
     var WIFI_firmwareNumber : Int?
     var WIFI_logsTotalNumber : Int?

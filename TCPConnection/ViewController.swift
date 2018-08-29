@@ -26,14 +26,14 @@ class ViewController: UIViewController {
         IJProgressView.shared.hideProgressView()
     }
     
-    func parseByte(data: [UInt8], size: Int){
+    func parseByte(data: [UInt8], size: Int) -> [CShort]{
         var values : [CShort] = []
         var cont = 3
         for _ in 0 ... size{
             values.append(CShort( ((CShort(data[cont])) << 8) | (CShort(data[cont+1])) ) )
             cont = cont + 2
         }
-        
+        return values
     }
     
     @IBAction func getRegisters(_ sender: Any) {
@@ -46,13 +46,12 @@ class ViewController: UIViewController {
             switch self.client.send(data: self.sendRHR(addr: 0, size: 100)) {
             case .success:
                 guard let data = self.client.read(300, timeout: 10) else { return }
-                self.parseByte(data: data, size: 100)
+               // self.parseByte(data: data, size: 100)
                 self.textView.text = " \(data)"
                 
                 //IF BIT DE ERRO SETADO RETURN
                 //ELSE PARSE
-                
-                StatusParser.shared.parseStatus1(data: data)
+                StatusParser.shared.parseStatus1(values: self.parseByte(data: data, size: 100))
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                     
@@ -63,7 +62,7 @@ class ViewController: UIViewController {
                         //IF BIT DE ERRO SETADO RETURN
                         //ELSE PARSE
                         print(data)
-                        StatusParser.shared.parseStatus2(data: data)
+                        StatusParser.shared.parseStatus2(values: self.parseByte(data: data, size: 100))
                       
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         
@@ -71,7 +70,7 @@ class ViewController: UIViewController {
                             case .success:
                                 guard let data = self.client.read(300, timeout: 10) else { return }
                                 print("data 3 : \(data)")
-                                StatusParser.shared.parseStatus3(data: data)
+                                StatusParser.shared.parseStatus3(values: self.parseByte(data: data, size: 35))
                                 
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                     switch self.client.send(data: self.sendRHR(addr: 1000 , size: 100)) {
