@@ -91,7 +91,7 @@ class ViewController: UIViewController {
                                                     case .success:
                                                         guard let data = self.client.read(300, timeout: 10) else { return }
                                                         print("config 3 : \(data)")
-                                                        //StatusParser.shared.parseStatus3(data: data)
+                                                        ConfigParser.shared.parseConfig3(values: self.parseByte(data: data, size: 100))
                                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                                             switch self.client.send(data: self.sendRHR(addr: 1300 , size: 100)) {
                                                             case .success:

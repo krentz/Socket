@@ -39,6 +39,7 @@ class WifiDevice : NSObject {
     var WIFI_HR_SS_MAC_ADDR_BLE_0_1 : Int?
     var WIFI_HR_SS_MAC_ADDR_BLE_2_3 : Int?
     var WIFI_HR_SS_MAC_ADDR_BLE_4_5 : Int?
+    var WIFI_macAddr_ble: String = ""
     var WIFI_HR_SS_RESERVED_3 : Int?
     var WIFI_HR_SS_RESERVED_4 : Int?
     var WIFI_HR_SS_POWER_SUPPLY : Int?
@@ -325,6 +326,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_SETTING_TITLE_8 : Int?
     var    WIFI_HR_CS_SETTING_TITLE_9 : Int?
     var    WIFI_HR_CS_SETTING_TITLE_10 : Int?
+    var    WIFI_title : String = ""
     var    WIFI_HR_CS_SETTING_PM : Bool?
     var    WIFI_HR_CS_SETTING_GMT : Int?
     var    WIFI_HR_CS_SETTING_YEAR : Int?
@@ -341,6 +343,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_BLE_DEVICE_NAME_2 : Int?
     var    WIFI_HR_CS_BLE_DEVICE_NAME_3 : Int?
     var    WIFI_HR_CS_BLE_DEVICE_NAME_4 : Int?
+    var    WIFI_deviceName : String = ""
     var    WIFI_HR_CS_RESERVED_17 : Int?
     var    WIFI_HR_CS_BLE_RESERVED_1 : Int?
     var    WIFI_HR_CS_BLE_RESERVED_2 : Int?
@@ -396,10 +399,12 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_CHD_TAG_6 : Int?
     var    WIFI_HR_CS_CHD_TAG_7 : Int?
     var    WIFI_HR_CS_CHD_TAG_8 : Int?
+    var    WIFI_chd_tag: String = ""
     var    WIFI_HR_CS_CHD_TAG_UNIT_1 : Int?
     var    WIFI_HR_CS_CHD_TAG_UNIT_2 : Int?
     var    WIFI_HR_CS_CHD_TAG_UNIT_3 : Int?
     var    WIFI_HR_CS_CHD_TAG_UNIT_4 : Int?
+    var    WIFI_chd_unit_tag: String = ""
     var    WIFI_HR_CS_FREQUENCY_TO_FILTER : Int?
     var    WIFI_HR_CS_CH1_ENABLE : Bool?
     var    WIFI_HR_CS_CH1_MODE : Int?
@@ -423,10 +428,12 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_CH1_TAG_6 : Int?
     var    WIFI_HR_CS_CH1_TAG_7 : Int?
     var    WIFI_HR_CS_CH1_TAG_8 : Int?
+    var    WIFI_ch1_tag : String = ""
     var    WIFI_HR_CS_CH1_TAG_UNIT_1 : Int?
     var    WIFI_HR_CS_CH1_TAG_UNIT_2 : Int?
     var    WIFI_HR_CS_CH1_TAG_UNIT_3 : Int?
     var    WIFI_HR_CS_CH1_TAG_UNIT_4 : Int?
+    var    WIFI_ch1_unit_tag : String = ""
     var    WIFI_HR_CS_RESERVED_29 : Int?
     var    WIFI_HR_CS_CH1_CUSTOM_CALIB_NUM_OF_POINTS : Int?
     var    WIFI_HR_CS_CH1_CUSTOM_CALIB_LOGBOX_1 : Int?
@@ -476,10 +483,12 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_CH2_TAG_6 : Int?
     var    WIFI_HR_CS_CH2_TAG_7 : Int?
     var    WIFI_HR_CS_CH2_TAG_8 : Int?
+    var    WIFI_ch2_tag : String = ""
     var    WIFI_HR_CS_CH2_TAG_UNIT_1 : Int?
     var    WIFI_HR_CS_CH2_TAG_UNIT_2 : Int?
     var    WIFI_HR_CS_CH2_TAG_UNIT_3 : Int?
     var    WIFI_HR_CS_CH2_TAG_UNIT_4 : Int?
+    var    WIFI_ch2_unit_tag : String = ""
     var    WIFI_HR_CS_RESERVED_37 : Int?
     var    WIFI_HR_CS_CH2_CUSTOM_CALIB_NUM_OF_POINTS : Int?
     var    WIFI_HR_CS_CH2_CUSTOM_CALIB_LOGBOX_1 : Int?
@@ -530,10 +539,12 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_CH3_TAG_6 : Int?
     var    WIFI_HR_CS_CH3_TAG_7 : Int?
     var    WIFI_HR_CS_CH3_TAG_8 : Int?
+    var    WIFI_ch3_tag : String = ""
     var    WIFI_HR_CS_CH3_TAG_UNIT_1 : Int?
     var    WIFI_HR_CS_CH3_TAG_UNIT_2 : Int?
     var    WIFI_HR_CS_CH3_TAG_UNIT_3 : Int?
     var    WIFI_HR_CS_CH3_TAG_UNIT_4 : Int?
+    var    WIFI_ch3_unit_tag : String = ""
     var    WIFI_HR_CS_RESERVED_45 : Int?
     var    WIFI_HR_CS_CH3_CUSTOM_CALIB_NUM_OF_POINTS : Int?
     var    WIFI_HR_CS_CH3_CUSTOM_CALIB_LOGBOX_1 : Int?
@@ -584,6 +595,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_SSID_28_29 : Int?
     var    WIFI_HR_CS_WIFI_SSID_30_31 : Int?
     var    WIFI_HR_CS_WIFI_SSID_32_33 : Int?
+    var    WIFI_ssid: String = ""
     var    WIFI_HR_CS_WIFI_PASS_0_1 : Int?
     var    WIFI_HR_CS_WIFI_PASS_2_3 : Int?
     var    WIFI_HR_CS_WIFI_PASS_4_5 : Int?
@@ -603,6 +615,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_PASS_30_31 : Int?
     var    WIFI_HR_CS_WIFI_PASS_32_33 : Int?
     var    WIFI_HR_CS_WIFI_PASS_34_35 : Int?
+    var    WIFI_HR_CS_WIFI_PASS : String = ""
     var    WIFI_HR_CS_WIFI_PASS_36_37 : Int?
     var    WIFI_HR_CS_WIFI_PASS_38_39 : Int?
     var    WIFI_HR_CS_WIFI_IP_STATIC_DHCP : Bool?
@@ -634,6 +647,8 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_HASH_34_35 : Int?
     var    WIFI_HR_CS_WIFI_HASH_36_37 : Int?
     var    WIFI_HR_CS_WIFI_HASH_38_39 : Int?
+    var    WIFI_hash: String = ""
+    
     var    WIFI_HR_CS_WIFI_MQTT_ENABLE : Bool?
     var    WIFI_HR_CS_WIFI_MQTT_SERVICE_PORT : Int?
     var    WIFI_HR_CS_WIFI_MQTT_QOS : Int?
@@ -667,6 +682,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_MQTT_BROKER_URL_54_55 : Int?
     var    WIFI_HR_CS_WIFI_MQTT_BROKER_URL_56_57 : Int?
     var    WIFI_HR_CS_WIFI_MQTT_BROKER_URL_58_59 : Int?
+    var    WIFI_mqtt_broker_url: String = ""
     var    WIFI_HR_CS_WIFI_MQTT_BROKER_USER_00_01 : Int?
     var    WIFI_HR_CS_WIFI_MQTT_BROKER_USER_02_03 : Int?
     var    WIFI_HR_CS_WIFI_MQTT_BROKER_USER_04_05 : Int?
@@ -687,6 +703,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_MQTT_BROKER_USER_34_35 : Int?
     var    WIFI_HR_CS_WIFI_MQTT_BROKER_USER_36_37 : Int?
     var    WIFI_HR_CS_WIFI_MQTT_BROKER_USER_38_39 : Int?
+    var    WIFI_mqtt_broker_user: String = ""
     var    WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_00_01 : Int?
     //PARSECONFIG 5
     var    WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_02_03 : Int?
@@ -708,6 +725,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_34_35 : Int?
     var    WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_36_37 : Int?
     var    WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_38_39 : Int?
+    var    WIFI_mqtt_broker_pass: String = ""
     var    WIFI_HR_CS_WIFI_MQTT_JSON_TIMESTAMP : Bool?
     var    WIFI_HR_CS_WIFI_MQTT_JSON_STRUCTURE_STATIC : Int?
     var    WIFI_HR_CS_WIFI_MQTT_JSON_BOOL_FORMAT : Bool?
@@ -778,6 +796,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_SMTP_URL_54_55 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_URL_56_57 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_URL_58_59 : Int?
+    var    WIFI_smtp_url: String = ""
     var    WIFI_HR_CS_WIFI_SMTP_USER_00_01 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_USER_02_03 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_USER_04_05 : Int?
@@ -804,6 +823,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_SMTP_USER_44_45 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_USER_46_47 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_USER_48_49 : Int?
+    var    WIFI_smtp_user: String = ""
     var    WIFI_HR_CS_WIFI_SMTP_PASSWORD_00_01 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_PASSWORD_02_03 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_PASSWORD_04_05 : Int?
@@ -824,6 +844,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_SMTP_PASSWORD_34_35 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_PASSWORD_36_37 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_PASSWORD_38_39 : Int?
+    var    WIFI_smtp_password: String = ""
     var    WIFI_HR_CS_WIFI_SMTP_SENDER_00_01 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_SENDER_02_03 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_SENDER_04_05 : Int?
@@ -849,6 +870,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_SMTP_SENDER_44_45 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_SENDER_46_47 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_SENDER_48_49 : Int?
+    var    WIFI_smtp_sender: String = ""
     var    WIFI_HR_CS_WIFI_SMTP_SUBJECT_00_01 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_SUBJECT_02_03 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_SUBJECT_04_05 : Int?
@@ -869,6 +891,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_SMTP_SUBJECT_34_35 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_SUBJECT_36_37 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_SUBJECT_38_39 : Int?
+    var    WIFI_smtp_subject: String = ""
     var    WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_00_01 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_02_03 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_04_05 : Int?
@@ -900,6 +923,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_54_55 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_56_57 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_58_59 : Int?
+    var    WIFI_smtp_email_frame: String = ""
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_00_01 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_02_03 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_04_05 : Int?
@@ -925,6 +949,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_44_45 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_46_47 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_48_49 : Int?
+    var    WIFI_smpt_receiver_contact_a: String = ""
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_00_01 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_02_03 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_04_05 : Int?
@@ -950,6 +975,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_44_45 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_46_47 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_48_49 : Int?
+    var    WIFI_smpt_receiver_contact_b: String = ""
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_00_01 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_02_03 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_04_05 : Int?
@@ -974,6 +1000,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_42_43 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_44_45 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_46_47 : Int?
+    var    WIFI_smpt_receiver_contact_c: String = ""
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_48_49 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_00_01 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_02_03 : Int?
@@ -1001,6 +1028,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_44_45 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_46_47 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_48_49 : Int?
+    var    WIFI_smpt_receiver_contact_d: String = ""
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_00_01 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_02_03 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_04_05 : Int?
@@ -1025,6 +1053,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_42_43 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_44_45 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_46_47 : Int?
+    var    WIFI_smpt_receiver_contact_e: String = ""
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_48_49 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_00_01 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_02_03 : Int?
@@ -1051,6 +1080,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_44_45 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_46_47 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_48_49 : Int?
+    var    WIFI_smpt_receiver_contact_f: String = ""
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_00_01 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_02_03 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_04_05 : Int?
@@ -1076,6 +1106,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_44_45 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_46_47 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_48_49 : Int?
+    var    WIFI_smpt_receiver_contact_g: String = ""
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_00_01 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_02_03 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_04_05 : Int?
@@ -1102,6 +1133,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_44_45 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_46_47 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_48_49 : Int?
+    var    WIFI_smpt_receiver_contact_h: String = ""
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_00_01 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_02_03 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_04_05 : Int?
@@ -1127,6 +1159,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_44_45 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_46_47 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_48_49 : Int?
+    var    WIFI_smpt_receiver_contact_i: String = ""
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_00_01 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_02_03 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_04_05 : Int?
@@ -1152,6 +1185,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_44_45 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_46_47 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_48_49 : Int?
+    var    WIFI_smpt_receiver_contact_j: String = ""
     var    WIFI_HR_CS_WIFI_SMTP_RESERVED_14 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RESERVED_15 : Int?
     var    WIFI_HR_CS_WIFI_SMTP_RESERVED_16 : Int?
@@ -1250,6 +1284,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_FTP_URL_54_55 : Int?
     var    WIFI_HR_CS_WIFI_FTP_URL_56_57 : Int?
     var    WIFI_HR_CS_WIFI_FTP_URL_58_59 : Int?
+    var    WIFI_ftp_url: String = ""
     var    WIFI_HR_CS_WIFI_FTP_USER_00_01 : Int?
     var    WIFI_HR_CS_WIFI_FTP_USER_02_03 : Int?
     var    WIFI_HR_CS_WIFI_FTP_USER_04_05 : Int?
@@ -1275,6 +1310,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_FTP_USER_44_45 : Int?
     var    WIFI_HR_CS_WIFI_FTP_USER_46_47 : Int?
     var    WIFI_HR_CS_WIFI_FTP_USER_48_49 : Int?
+    var    WIFI_ftp_user : String = ""
     var    WIFI_HR_CS_WIFI_FTP_PASSWORD_00_01 : Int?
     var    WIFI_HR_CS_WIFI_FTP_PASSWORD_02_03 : Int?
     var    WIFI_HR_CS_WIFI_FTP_PASSWORD_04_05 : Int?
@@ -1295,6 +1331,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_FTP_PASSWORD_34_35 : Int?
     var    WIFI_HR_CS_WIFI_FTP_PASSWORD_36_37 : Int?
     var    WIFI_HR_CS_WIFI_FTP_PASSWORD_38_39 : Int?
+    var    WIFI_ftp_password: String = ""
     //PARSE CONFIG 11
     var    WIFI_HR_CS_WIFI_FTP_RESERVED2_08 : Int?
     var    WIFI_HR_CS_WIFI_FTP_RESERVED_09 : Int?
@@ -1358,6 +1395,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_CLOUD_URL_54_55 : Int?
     var    WIFI_HR_CS_WIFI_CLOUD_URL_56_57 : Int?
     var    WIFI_HR_CS_WIFI_CLOUD_URL_58_59 : Int?
+    var    WIFI_cloud_url: String = ""
     var    WIFI_HR_CS_WIFI_CLOUD_CIK_00_01 : Int?
     var    WIFI_HR_CS_WIFI_CLOUD_CIK_02_03 : Int?
     var    WIFI_HR_CS_WIFI_CLOUD_CIK_04_05 : Int?
@@ -1378,6 +1416,7 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_CLOUD_CIK_34_35 : Int?
     var    WIFI_HR_CS_WIFI_CLOUD_CIK_36_37 : Int?
     var    WIFI_HR_CS_WIFI_CLOUD_CIK_38_39 : Int?
+    var    WIFI_cloud_cik: String = ""
     var    WIFI_HR_CS_WIFI_CLOUD_RESERVED_09 : Int?
     var    WIFI_HR_CS_WIFI_CLOUD_RESERVED_10 : Int?
     var    WIFI_HR_CS_WIFI_CLOUD_RESERVED_11 : Int?
