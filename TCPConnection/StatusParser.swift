@@ -24,7 +24,10 @@ class StatusParser {
         WifiDevice.shared.WIFI_HR_SS_MAC_ADDR_15_4_0_1_WiFi = Int(values[5])
         WifiDevice.shared.WIFI_HR_SS_MAC_ADDR_15_4_2_3_WiFi = Int(values[6])
         WifiDevice.shared.WIFI_HR_SS_MAC_ADDR_15_4_4_5_WiFi = Int(values[7])
+        WifiDevice.shared.WIFI_macAddr = ParseUtils.shared.formatMacAddress(mac: "\(String(Int(values[5]) & 0xffff, radix: 16))\(String(Int(values[6]) & 0xffff, radix: 16))\(String(Int(values[7]) & 0xffff, radix: 16))")
+        
         WifiDevice.shared.WIFI_HR_SS_MAC_ADDR_15_4_6_7 = Int(values[8])
+        
         
         WifiDevice.shared.WIFI_CR_PS_RESERVED_2 = Int(values[9])
         
@@ -88,9 +91,9 @@ class StatusParser {
         WifiDevice.shared.WIFI_HR_SS_CURRENT_HOUR = Int(values[54])
         WifiDevice.shared.WIFI_HR_SS_CURRENT_MINUTE = Int(values[55])
         WifiDevice.shared.WIFI_HR_SS_CURRENT_SECOND = Int(values[56])
-        WifiDevice.shared.WIFI_HR_SS_RESET_CONTIER = Int(values[57])
+        WifiDevice.shared.WIFI_HR_SS_RESERVED_15 = Int(values[57])
         WifiDevice.shared.WIFI_HR_SS_HAS_RESET_OCURRED = Int(values[58])
-        // WifiDevice.shared.WIFI_HR_SS_RESET_CONTIER = Int(values[59])
+        WifiDevice.shared.WIFI_HR_SS_RESET_CONTIER = Int(values[59])
         
         WifiDevice.shared.WIFI_HR_SS_AM_I_IN_BOOTLOADER_MODE = Int(values[60]) != 0 ? false : true
         WifiDevice.shared.WIFI_HR_SS_CHD_LAST_EVENT_YEAR = Int(values[61])

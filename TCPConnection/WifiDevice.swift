@@ -31,6 +31,8 @@ class WifiDevice : NSObject {
     var WIFI_HR_SS_MAC_ADDR_15_4_0_1_WiFi : Int?
     var WIFI_HR_SS_MAC_ADDR_15_4_2_3_WiFi : Int?
     var WIFI_HR_SS_MAC_ADDR_15_4_4_5_WiFi : Int?
+    var WIFI_macAddr : String?
+    
     var WIFI_HR_SS_MAC_ADDR_15_4_6_7 : Int?
     var WIFI_CR_PS_RESERVED_2 : Int? //9
     

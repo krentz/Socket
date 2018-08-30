@@ -20,6 +20,7 @@
 		3CE98CDD212EF15000E6C261 /* IJProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE98CDC212EF15000E6C261 /* IJProgressView.swift */; };
 		3CE98CDF212F4CE600E6C261 /* StatusParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE98CDE212F4CE500E6C261 /* StatusParser.swift */; };
 		3CE98CE1212F4D3C00E6C261 /* WifiDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE98CE0212F4D3C00E6C261 /* WifiDevice.swift */; };
+		63D8E5B2213856C400CA41BF /* ParseUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D8E5B1213856C400CA41BF /* ParseUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -51,6 +52,7 @@
 		3CE98CDC212EF15000E6C261 /* IJProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IJProgressView.swift; sourceTree = "<group>"; };
 		3CE98CDE212F4CE500E6C261 /* StatusParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusParser.swift; sourceTree = "<group>"; };
 		3CE98CE0212F4D3C00E6C261 /* WifiDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiDevice.swift; sourceTree = "<group>"; };
+		63D8E5B1213856C400CA41BF /* ParseUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 				3CE98CE0212F4D3C00E6C261 /* WifiDevice.swift */,
 				3CE98CDE212F4CE500E6C261 /* StatusParser.swift */,
 				3C9399822130934C000681D5 /* ConfigParser.swift */,
+				63D8E5B1213856C400CA41BF /* ParseUtils.swift */,
 			);
 			path = TCPConnection;
 			sourceTree = "<group>";
@@ -209,6 +212,7 @@
 				3CE98CDF212F4CE600E6C261 /* StatusParser.swift in Sources */,
 				3CE98CE1212F4D3C00E6C261 /* WifiDevice.swift in Sources */,
 				3CE98CBF212D8EAC00E6C261 /* AppDelegate.swift in Sources */,
+				63D8E5B2213856C400CA41BF /* ParseUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
