@@ -170,10 +170,13 @@ class StatusParser {
         //DUVIDA
         WifiDevice.shared.WIFI_HR_SS_WIFI_IP_ADDR_0_1  = Int(values[40])
         WifiDevice.shared.WIFI_HR_SS_WIFI_IP_ADDR_2_3  = Int(values[41])
+        WifiDevice.shared.WIFI_status_ip_address = ParseUtils.shared.getformatIpAddress(addr1: values[40], addr2: values[41])
         WifiDevice.shared.WIFI_HR_SS_WIFI_MASK_ADDR_0_1  = Int(values[42])
         WifiDevice.shared.WIFI_HR_SS_WIFI_MASK_ADDR_2_3  = Int(values[43])
+        WifiDevice.shared.WIFI_status_ip_address = ParseUtils.shared.getformatIpAddress(addr1: values[42], addr2: values[43])
         WifiDevice.shared.WIFI_HR_SS_WIFI_GATEWAY_ADDR_0_1  = Int(values[44])
         WifiDevice.shared.WIFI_HR_SS_WIFI_GATEWAY_ADDR_2_3  = Int(values[45])
+        WifiDevice.shared.WIFI_status_ip_address = ParseUtils.shared.getformatIpAddress(addr1: values[44], addr2: values[45])
         WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_11  = Int(values[46])
         WifiDevice.shared.WIFI_HR_SS_RESERVED_WIFI_12  = Int(values[47])
         WifiDevice.shared.WIFI_HR_SS_WIFI_MODULE_FIRMWARE_VER  = Int(values[48])

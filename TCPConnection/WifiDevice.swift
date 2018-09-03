@@ -184,10 +184,13 @@ class WifiDevice : NSObject {
     var    WIFI_HR_SS_WIFI_ERROR_MODBUS : Int?
     var    WIFI_HR_SS_WIFI_IP_ADDR_0_1 : Int?
     var    WIFI_HR_SS_WIFI_IP_ADDR_2_3 : Int?
+    var    WIFI_status_ip_address: String = ""
     var    WIFI_HR_SS_WIFI_MASK_ADDR_0_1 : Int?
     var    WIFI_HR_SS_WIFI_MASK_ADDR_2_3 : Int?
+    var    WIFI_status_ip_mask: String = ""
     var    WIFI_HR_SS_WIFI_GATEWAY_ADDR_0_1 : Int?
     var    WIFI_HR_SS_WIFI_GATEWAY_ADDR_2_3 : Int?
+    var    WIFI_status_ip_gateway: String = ""
     var    WIFI_HR_SS_RESERVED_WIFI_11 : Int?
     var    WIFI_HR_SS_RESERVED_WIFI_12 : Int?
     var    WIFI_HR_SS_WIFI_MODULE_FIRMWARE_VER : Int?
@@ -621,12 +624,16 @@ class WifiDevice : NSObject {
     var    WIFI_HR_CS_WIFI_IP_STATIC_DHCP : Bool?
     var    WIFI_HR_CS_WIFI_IP_ADDR_0_1 : Int?
     var    WIFI_HR_CS_WIFI_IP_ADDR_2_3 : Int?
+    var    WIFI_config_ip_address: String = ""
     var    WIFI_HR_CS_WIFI_IP_MASK_0_1 : Int?
     var    WIFI_HR_CS_WIFI_IP_MASK_2_3 : Int?
+    var    WIFI_config_ip_mask: String = ""
     var    WIFI_HR_CS_WIFI_IP_GATEWAY_0_1 : Int?
     var    WIFI_HR_CS_WIFI_IP_GATEWAY_2_3 : Int?
+    var    WIFI_config_ip_gateway: String = ""
     var    WIFI_HR_CS_WIFI_IP_DNS_0_1 : Int?
     var    WIFI_HR_CS_WIFI_IP_DNS_2_3 : Int?
+    var    WIFI_config_ip_dns: String = ""
     var    WIFI_HR_CS_WIFI_HASH_0_1 : Int?
     var    WIFI_HR_CS_WIFI_HASH_2_3 : Int?
     var    WIFI_HR_CS_WIFI_HASH_4_5 : Int?

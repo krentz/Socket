@@ -138,7 +138,8 @@ class ViewController: UIViewController {
                                                                                                                         self.client.close()
                                                                                                                         self.showError()
                                                                                                                         self.textView.text = "\(error)"
-                                                                                                                    }                                                                                                            }
+                                                                                                                    }
+                                                                                                                }
                                                                                                             case .failure(let error):
                                                                                                                 self.client.close()
                                                                                                                 self.showError()
@@ -292,7 +293,6 @@ class ViewController: UIViewController {
         let b : [UInt8] = mountCommand(advType: 0xFF, modbusPacket: executeTransaction)
         
         return b
-    
     }
     
     
@@ -318,8 +318,6 @@ class ViewController: UIViewController {
         data.append(getCRC1(u8BufferPtr: b)[1])
         
         return data
-        
-        
     }
     
     var crc = 0x0000

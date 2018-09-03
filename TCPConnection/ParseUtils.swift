@@ -23,13 +23,17 @@ class ParseUtils{
         
         return mac.uppercased()
     }
+    func getformatIpAddress(addr1: CShort, addr2: CShort) -> String{
+        return "\(UInt8( Int(addr1 >> 8) & 0x00ff)).\(UInt8( Int(addr1) & 0x00ff)).\(UInt8( Int(addr2 >> 8) & 0x00ff)).\(UInt8( Int(addr2) & 0x00ff))"
+    }
     
     func getStringFromValues(position1: Int, position2: Int, values: [CShort]) -> String{
         var string = ""
-        for i in 80 ... 96{
+        for i in position1 ... position2{
+            //String(Int(values[5]) & 0xffff, radix: 16)
             var array = Array<UInt8>()
-            array.append(UInt8(values[i] >> 8) & 0x00ff) //high
-            array.append(UInt8(values[i] & 0x00ff)) // low
+            array.append( UInt8( Int(values[i] >> 8) & 0x00ff)) //high
+            array.append( UInt8( Int(values[i]) & 0x00ff)) // low
             string = (string + getStringFromBytes(bytes: array)).replacingOccurrences(of: "\0", with: "", options: .regularExpression)
         }
         return string
@@ -38,7 +42,12 @@ class ParseUtils{
     func getStringFromBytes(bytes: [UInt8]) -> String{
         let getDataFromBytes = NSData(bytes: bytes , length: bytes.count)
         let dataString = NSString(data: getDataFromBytes as Data, encoding: String.Encoding.utf8.rawValue)
-        return dataString! as String
+        if let result = dataString {
+            return result as String
+        }
+        else{
+            return ""
+        }
     }
     
 }
