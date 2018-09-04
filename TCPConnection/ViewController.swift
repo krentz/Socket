@@ -14,6 +14,9 @@ import SwiftSocket
 class ViewController: UIViewController {
 
     var client: TCPClient!
+    let OPEN_CONFIG_SESSION: [UInt8] = [0x01, 0x65, 0x01, 0x01, 0x43, 0x6F, 0x6E, 0x66, 0x69, 0x67, 0x53, 0x65, 0x01, 0x64]
+    let CLOSE_CONFIG_SESSION: [UInt8] = [0x01, 0x65, 0x02, 0x01, 0x43, 0x6F, 0x6E, 0x66, 0x69, 0x67, 0x53, 0x65, 0x01, 0x64]
+    let WRITE_MULTIPLE_REGISTERS : UInt8 = 0x10
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +37,157 @@ class ViewController: UIViewController {
             cont = cont + 2
         }
         return values
+    }
+    var configValues1 = [Int]()
+    var configValues2 = [Int]()
+    var configValues3 = [Int]()
+    var configValues4 = [Int]()
+    
+    func validateValues(device: WifiDevice) -> Int{
+        
+        configValues1 = [Int]()
+        configValues2 = [Int]()
+        configValues3 = [Int]()
+        configValues4 = [Int]()
+        
+        return 1
+    }
+    
+    
+    func showError(error: String){
+        
+    }
+    @IBAction func write(_ sender: Any) {
+        let client = TCPClient(address: "10.51.10.199", port: 502)
+        switch client.connect(timeout: 10) {
+        case .success:
+            switch client.send(data: self.OPEN_CONFIG_SESSION) {
+            case .success:
+                guard let data = client.read(6, timeout: 10) else { return }
+                if data[1] == 101{
+                    switch client.send(data: self.writeMultipleRegisters(initReg: 1001, nroReg: 99, values:  ValidateWriter.shared.validateConfig1())){
+                    case .success:
+                        guard let data = client.read(6, timeout: 10) else { return }
+                        if data[1] == 16{
+                            print("\(data)")
+                            switch client.send(data: self.writeMultipleRegisters(initReg: 1100, nroReg: 100, values:  ValidateWriter.shared.validateConfig2())){
+                            case .success:
+                                guard let data = client.read(6, timeout: 10) else { return }
+                                if data[1] == 16{
+                                    print("\(data)")
+                                    switch client.send(data: self.writeMultipleRegisters(initReg: 1200, nroReg: 100, values:  ValidateWriter.shared.validateConfig3())){
+                                    case .success:
+                                        guard let data = client.read(6, timeout: 10) else { return }
+                                        if data[1] == 16{
+                                            print("\(data)")
+                                            switch client.send(data: self.writeMultipleRegisters(initReg: 1300, nroReg: 100, values:  ValidateWriter.shared.validateConfig4())){
+                                            case .success:
+                                                guard let data = client.read(6, timeout: 10) else { return }
+                                                if data[1] == 16{
+                                                    switch client.send(data: self.writeMultipleRegisters(initReg: 1400, nroReg: 100, values:  ValidateWriter.shared.validateConfig5())){
+                                                    case .success:
+                                                        guard let data = client.read(6, timeout: 10) else { return }
+                                                        if data[1] == 16{
+                                                            switch client.send(data: self.writeMultipleRegisters(initReg: 1500, nroReg: 100, values:  ValidateWriter.shared.validateConfig6())){
+                                                            case .success:
+                                                                guard let data = client.read(6, timeout: 10) else { return }
+                                                                if data[1] == 16{
+                                                                    switch client.send(data: self.writeMultipleRegisters(initReg: 1600, nroReg: 100, values:  ValidateWriter.shared.validateConfig7())){
+                                                                    case .success:
+                                                                        guard let data = client.read(6, timeout: 10) else { return }
+                                                                        if data[1] == 16{
+                                                                            switch client.send(data: self.writeMultipleRegisters(initReg: 1700, nroReg: 100, values:  ValidateWriter.shared.validateConfig8())){
+                                                                            case .success:
+                                                                                guard let data = client.read(6, timeout: 10) else { return }
+                                                                                if data[1] == 16{
+                                                                                    switch client.send(data: self.writeMultipleRegisters(initReg: 1800, nroReg: 100, values:  ValidateWriter.shared.validateConfig9())){
+                                                                                    case .success:
+                                                                                        guard let data = client.read(6, timeout: 10) else { return }
+                                                                                        if data[1] == 16{
+                                                                                            switch client.send(data: self.writeMultipleRegisters(initReg: 1900, nroReg: 100, values:  ValidateWriter.shared.validateConfig10())){
+                                                                                            case .success:
+                                                                                                guard let data = client.read(6, timeout: 10) else { return }
+                                                                                                if data[1] == 16{
+                                                                                                    switch client.send(data: self.writeMultipleRegisters(initReg: 2000, nroReg: 95, values:  ValidateWriter.shared.validateConfig11())){
+                                                                                                    case .success:
+                                                                                                        guard let data = client.read(6, timeout: 10) else { return }
+                                                                                                        if data[1] == 16{
+                                                                                                            
+                                                                                                            
+                                                                                                            
+                                                                                                            IJProgressView.shared.hideProgressView()
+                                                                                                            client.close()
+                                                                                                        }
+                                                                                                    case .failure(let error):
+                                                                                                        self.textView.text = "\(error)"
+                                                                                                        IJProgressView.shared.hideProgressView()
+                                                                                                    }
+                                                                                                }
+                                                                                            case .failure(let error):
+                                                                                                self.textView.text = "\(error)"
+                                                                                                IJProgressView.shared.hideProgressView()
+                                                                                            }
+                                                                                        }
+                                                                                    case .failure(let error):
+                                                                                        self.textView.text = "\(error)"
+                                                                                        IJProgressView.shared.hideProgressView()
+                                                                                    }
+                                                                                }
+                                                                            case .failure(let error):
+                                                                                self.textView.text = "\(error)"
+                                                                                IJProgressView.shared.hideProgressView()
+                                                                            }
+                                                                        }
+                                                                    case .failure(let error):
+                                                                        self.textView.text = "\(error)"
+                                                                        IJProgressView.shared.hideProgressView()
+                                                                    }
+                                                                }
+                                                            case .failure(let error):
+                                                                self.textView.text = "\(error)"
+                                                                IJProgressView.shared.hideProgressView()
+                                                            }
+                                                        }
+                                                    case .failure(let error):
+                                                        self.textView.text = "\(error)"
+                                                        IJProgressView.shared.hideProgressView()
+                                                    }
+                                                    
+                                                }
+                                            case .failure(let error):
+                                                self.textView.text = "\(error)"
+                                                IJProgressView.shared.hideProgressView()
+                                            }
+                                        }
+                                    case .failure(let error):
+                                        self.textView.text = "\(error)"
+                                        IJProgressView.shared.hideProgressView()
+                                    }
+                                }
+                            case .failure(let error):
+                                self.textView.text = "\(error)"
+                                IJProgressView.shared.hideProgressView()
+                            }
+                        }
+                        else{ //erro envio 1
+                            
+                        }
+                    case .failure(let error):
+                        self.textView.text = "\(error)"
+                        IJProgressView.shared.hideProgressView()
+                    }
+                }
+                else{
+                    //erro ao abrir sessao
+                }
+            case .failure(let error):
+                self.textView.text = "\(error)"
+                IJProgressView.shared.hideProgressView()
+            }
+        case .failure(let error):
+            IJProgressView.shared.hideProgressView()
+            self.textView.text = "\(error)"
+        }
     }
     
     @IBAction func getRegisters(_ sender: Any) {
@@ -294,7 +448,51 @@ class ViewController: UIViewController {
         
         return b
     }
+    func writeMultipleRegisters(initReg: CShort, nroReg: CShort, values: [Int]) -> [UInt8]{
+        
+        var i = 0
+        var data = Array<UInt8>()   //13 + (2 * nroReg)
+        
+        data.append(UInt8(0))
+        
+        data.append(WRITE_MULTIPLE_REGISTERS)
+        
+        data.append(UInt8(Int(initReg >> 8) & 0xff))
+        
+        data.append(UInt8(UInt64(initReg) & 0xFF))
+        
+        data.append(UInt8(nroReg >> 8) & 0xFF)
+        
+        data.append(UInt8(nroReg) & 0xFF)
+        
+        data.append(UInt8(2 * nroReg) & 0xFF) //10
+        
+        while (nroReg > i) {
+            data.append(UInt8(Int32((values[i]) >> 8) & 0xFF))////0
+            data.append (UInt8(values[i] & 0xFF))
+            i = i + 1
+        }
+        
+        var b = Array<UInt8>()
+        var k = 0
+        
+        while (data.count) > k {
+            b.append(data[k])
+            k = k + 1
+        }
+        
+        data.append(getCRC1(u8BufferPtr: b)[0])
+        
+        data.append(getCRC1(u8BufferPtr: b)[1])
+        
+        return data
+    }
     
+    func validateConfig1() {
+    //    self.configValues1.append((WifiDevice.shared.WIFI_HR_CS_SETTING_RESTORE_DEFAULT == false) ? 0 : 1)
+        self.configValues1.append(10)
+        self.configValues1.append(0)
+    }
     
     func mountCommand(advType : UInt8, modbusPacket : [UInt8]) -> [UInt8]{
        
