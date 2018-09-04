@@ -49,6 +49,33 @@ class ParseUtils{
             return ""
         }
     }
+    func completeArray(bytes: [UInt8], size: Int) -> [UInt8]{
+        var values = bytes
+        for _ in bytes.count ..< size {
+            values.append(0)
+        }
+        return values
+    }
+    func getBytesFromString(string: String) -> [UInt8]{
+        
+        if string.count == 0 {
+            return [UInt8]()
+        }
+        
+        // Get the String.UTF8View.
+        let bytes = string.utf8
+        //   print(bytes)
+        
+        // Get an array from the UTF8View.
+        // ... This is a byte array of character data.
+        var buffer = [UInt8](bytes)
+        
+        // Change the first byte in the byte array.
+        // ... The byte array is mutable.
+        buffer[0] = buffer[0] + UInt8(0)
+        return buffer
+        
+    }
     
 }
 

@@ -48,17 +48,31 @@ class ValidateWriter{
         configValues.append(WifiDevice.shared.WIFI_HR_CS_MODBUS_ADDRESS!)
 
         configValues.append(WifiDevice.shared.WIFI_HR_CS_RESERVED_14!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_1!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_2!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_3!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_4!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_5!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_6!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_7!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_8!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_9!)
         
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_10!)
+        let titleBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_title), size: 20)
+        var hi : UInt8 = 0
+        var lo : UInt8 = 0
+        for i in 0 ..< 20 {
+            if (i % 2 == 0){
+                hi = titleBytes[i]
+            }
+            else {
+                lo = titleBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+        
+//        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_1!)
+//        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_2!)
+//        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_3!)
+//        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_4!)
+//        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_5!)
+//        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_6!)
+//        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_7!)
+//        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_8!)
+//        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_9!)
+//
+//        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_10!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_PM != false ? 0 : 1) // 0 24
         configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_GMT!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_YEAR!)

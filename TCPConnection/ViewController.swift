@@ -65,7 +65,7 @@ class ViewController: UIViewController {
             case .success:
                 guard let data = client.read(6, timeout: 10) else { return }
                 print("data : \(data)")
-                if data[1] == 16{
+                if data[1] == 101{
                     switch client.send(data: self.writeMultipleRegisters(initReg: 1001, nroReg: 99, values:  ValidateWriter.shared.validateConfig1())){
                     case .success:
                         guard let data = client.read(6, timeout: 10) else { return }
@@ -331,7 +331,7 @@ class ViewController: UIViewController {
                                                                                                                             ConfigParser.shared.parseConfig11(values: self.parseByte(data: data, size: 95))
                                                                                                                             
                                                                                                                         }
-                                                                                                                        else{
+                                                                                                                        else{ // config 11
                                                                                                                             
                                                                                                                         }
                                                                                                                         self.client.close()
@@ -342,11 +342,17 @@ class ViewController: UIViewController {
                                                                                                                         self.textView.text = "\(error)"
                                                                                                                     }
                                                                                                                 }
+                                                                                                                else{ // config 10
+                                                                                                                    
+                                                                                                                }
                                                                                                             case .failure(let error): //config 10
                                                                                                                 self.client.close()
                                                                                                                 self.showError()
                                                                                                                 self.textView.text = "\(error)"
                                                                                                             }
+                                                                                                        }
+                                                                                                        else{ // config 9
+                                                                                                            
                                                                                                         }
                                                                                                     case .failure(let error): //config 9
                                                                                                         self.client.close()
@@ -354,11 +360,17 @@ class ViewController: UIViewController {
                                                                                                         self.textView.text = "\(error)"
                                                                                                     }
                                                                                                 }
+                                                                                                else{ // config 8
+                                                                                                    
+                                                                                                }
                                                                                             case .failure(let error): //config 8
                                                                                                 self.client.close()
                                                                                                 self.showError()
                                                                                                 self.textView.text = "\(error)"
                                                                                             }
+                                                                                        }
+                                                                                        else{ // config 7
+                                                                                            
                                                                                         }
                                                                                     case .failure(let error): //config 7
                                                                                         self.client.close()
@@ -366,11 +378,17 @@ class ViewController: UIViewController {
                                                                                         self.textView.text = "\(error)"
                                                                                     }
                                                                                 }
+                                                                                else{ // config 6
+                                                                                    
+                                                                                }
                                                                             case .failure(let error): //config 6
                                                                                 self.client.close()
                                                                                 self.showError()
                                                                                 self.textView.text = "\(error)"
                                                                             }
+                                                                        }
+                                                                        else{ // config 5
+                                                                            
                                                                         }
                                                                     case .failure(let error): //config 5
                                                                         self.client.close()
@@ -378,11 +396,17 @@ class ViewController: UIViewController {
                                                                         self.textView.text = "\(error)"
                                                                     }
                                                                 }
+                                                                else{ // config 4
+                                                                    
+                                                                }
                                                             case .failure(let error): //config 4
                                                                 self.client.close()
                                                                 self.showError()
                                                                 self.textView.text = "\(error)"
                                                             }
+                                                        }
+                                                        else{ // config 3
+                                                            
                                                         }
                                                     case .failure(let error): //config 3
                                                         self.client.close()
@@ -390,11 +414,17 @@ class ViewController: UIViewController {
                                                         self.textView.text = "\(error)"
                                                     }
                                                 }
+                                                else{ // config 2
+                                                    
+                                                }
                                             case .failure(let error): //config 2
                                                 self.client.close()
                                                 self.showError()
                                                 self.textView.text = "\(error)"
                                             }
+                                        }
+                                        else{ // config 1
+                                            
                                         }
                                     case .failure(let error): //config 1
                                         self.client.close()
@@ -402,11 +432,17 @@ class ViewController: UIViewController {
                                         self.textView.text = "\(error)"
                                     }
                                 }
+                                else{ // status 3
+                                    
+                                }
                             case .failure(let error): //status 3
                                 self.client.close()
                                 self.showError()
                                 self.textView.text = "\(error)"
                             }
+                        }
+                        else{ // status 2
+                            
                         }
                     case .failure(let error): //status 2
                         self.client.close()
