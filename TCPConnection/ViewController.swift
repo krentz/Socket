@@ -76,37 +76,37 @@ class ViewController: UIViewController {
                                 guard let data = client.read(6, timeout: 10) else { return }
                                 if data[1] == 16{
                                     print("config 2 \(data)")
-                                    switch client.send(data: self.writeMultipleRegisters(initReg: 1200, nroReg: 100, values:  ValidateWriter.shared.validateConfig3())){
+                                    switch client.send(data: self.writeMultipleRegisters(initReg: 1200, nroReg: 97, values:  ValidateWriter.shared.validateConfig3())){
                                     case .success:
                                         guard let data = client.read(6, timeout: 10) else { return }
                                         if data[1] == 16{
                                             print("config 3 \(data)")
-                                            switch client.send(data: self.writeMultipleRegisters(initReg: 1300, nroReg: 100, values:  ValidateWriter.shared.validateConfig4())){
+                                            switch client.send(data: self.writeMultipleRegisters(initReg: 1297, nroReg: 102, values:  ValidateWriter.shared.validateConfig4())){
                                             case .success:
                                                 guard let data = client.read(6, timeout: 10) else { return }
                                                 if data[1] == 16{
                                                     print("config 4 \(data)")
-                                                    switch client.send(data: self.writeMultipleRegisters(initReg: 1400, nroReg: 100, values:  ValidateWriter.shared.validateConfig5())){
+                                                    switch client.send(data: self.writeMultipleRegisters(initReg: 1399, nroReg: 90, values:  ValidateWriter.shared.validateConfig5())){
                                                     case .success:
                                                         guard let data = client.read(6, timeout: 10) else { return }
                                                         if data[1] == 16{
                                                             print("config 5 \(data)")
-                                                            switch client.send(data: self.writeMultipleRegisters(initReg: 1500, nroReg: 100, values:  ValidateWriter.shared.validateConfig6())){
+                                                            switch client.send(data: self.writeMultipleRegisters(initReg: 1489, nroReg: 90, values:  ValidateWriter.shared.validateConfig6())){
                                                             case .success:
                                                                 guard let data = client.read(6, timeout: 10) else { return }
                                                                 if data[1] == 16{
                                                                     print("config 6 \(data)")
-                                                                    switch client.send(data: self.writeMultipleRegisters(initReg: 1600, nroReg: 100, values:  ValidateWriter.shared.validateConfig7())){
+                                                                    switch client.send(data: self.writeMultipleRegisters(initReg: 1579, nroReg: 105, values:  ValidateWriter.shared.validateConfig7())){
                                                                     case .success:
                                                                         guard let data = client.read(6, timeout: 10) else { return }
                                                                         if data[1] == 16{
                                                                             print("config 7 \(data)")
-                                                                            switch client.send(data: self.writeMultipleRegisters(initReg: 1700, nroReg: 100, values:  ValidateWriter.shared.validateConfig8())){
+                                                                            switch client.send(data: self.writeMultipleRegisters(initReg: 1684, nroReg: 100, values:  ValidateWriter.shared.validateConfig8())){
                                                                             case .success:
                                                                                 guard let data = client.read(6, timeout: 10) else { return }
                                                                                 if data[1] == 16{
                                                                                     print("config 8\(data)")
-                                                                                    switch client.send(data: self.writeMultipleRegisters(initReg: 1800, nroReg: 100, values:  ValidateWriter.shared.validateConfig9())){
+                                                                                    switch client.send(data: self.writeMultipleRegisters(initReg: 1784, nroReg: 116, values:  ValidateWriter.shared.validateConfig9())){
                                                                                     case .success:
                                                                                         guard let data = client.read(6, timeout: 10) else { return }
                                                                                         if data[1] == 16{

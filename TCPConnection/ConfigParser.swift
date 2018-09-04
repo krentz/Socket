@@ -109,12 +109,12 @@ class ConfigParser {
         WifiDevice.shared.WIFI_HR_CS_CHD_DEBOUNCE_TIME_ms = Int(values[91])
         WifiDevice.shared.WIFI_HR_CS_CHD_SENSOR_FACTOR_float_High = Int(values[92])
         WifiDevice.shared.WIFI_HR_CS_CHD_SENSOR_FACTOR_float_Low = Int(values[93])
-        WifiDevice.shared.WIFI_HR_CS_CHD_SENSOR_FACTOR_float = Float( (WifiDevice.shared.WIFI_HR_CS_CHD_SENSOR_FACTOR_float_High! << 16) | (WifiDevice.shared.WIFI_HR_CS_CHD_SENSOR_FACTOR_float_Low! & 0xffff) )
+        WifiDevice.shared.WIFI_HR_CS_CHD_SENSOR_FACTOR_float = Float(bitPattern: UInt32((WifiDevice.shared.WIFI_HR_CS_CHD_SENSOR_FACTOR_float_High! << 16) | (WifiDevice.shared.WIFI_HR_CS_CHD_SENSOR_FACTOR_float_Low! & 0xffff)))
         
         WifiDevice.shared.WIFI_HR_CS_CHD_SENSOR_UNIT = Int(values[94])
         WifiDevice.shared.WIFI_HR_CS_CHD_USER_SCALE_FACTOR_float_High = Int(values[95])
         WifiDevice.shared.WIFI_HR_CS_CHD_USER_SCALE_FACTOR_float_Low = Int(values[96])
-        WifiDevice.shared.WIFI_HR_CS_CHD_USER_SCALE_FACTOR_float = Float( (WifiDevice.shared.WIFI_HR_CS_CHD_SENSOR_FACTOR_float_High! << 16) | (WifiDevice.shared.WIFI_HR_CS_CHD_SENSOR_FACTOR_float_Low! & 0xffff) )
+        WifiDevice.shared.WIFI_HR_CS_CHD_USER_SCALE_FACTOR_float = Float(bitPattern: UInt32((WifiDevice.shared.WIFI_HR_CS_CHD_USER_SCALE_FACTOR_float_High! << 16) | (WifiDevice.shared.WIFI_HR_CS_CHD_USER_SCALE_FACTOR_float_Low! & 0xffff)))
         
         WifiDevice.shared.WIFI_HR_CS_CHD_USER_UNIT = Int(values[97])
         WifiDevice.shared.WIFI_HR_CS_CHD_ENABLE_ALARM_MIN = Int(values[98]) != 0 ? false : true

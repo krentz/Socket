@@ -62,17 +62,6 @@ class ValidateWriter{
             }
         }
         
-//        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_1!)
-//        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_2!)
-//        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_3!)
-//        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_4!)
-//        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_5!)
-//        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_6!)
-//        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_7!)
-//        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_8!)
-//        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_9!)
-//
-//        configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_TITLE_10!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_PM != false ? 0 : 1) // 0 24
         configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_GMT!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_SETTING_YEAR!)
@@ -89,10 +78,20 @@ class ValidateWriter{
         configValues.append(WifiDevice.shared.WIFI_HR_CS_BLE_ENABLED != false ? 0 : 1)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_BLE_ADVERTISE_MODE != false ? 0 : 1)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_BLE_ADVERTISE_TIME_ms!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_BLE_DEVICE_NAME_1!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_BLE_DEVICE_NAME_2!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_BLE_DEVICE_NAME_3!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_BLE_DEVICE_NAME_4!)
+        
+        let deviceNameBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_deviceName), size: 8)
+        hi = 0
+        lo = 0
+        for i in 0 ..< 8 {
+            if (i % 2 == 0){
+                hi = deviceNameBytes[i]
+            }
+            else {
+                lo = deviceNameBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+        
         configValues.append(WifiDevice.shared.WIFI_HR_CS_RESERVED_18!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_BLE_RESERVED_1!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_BLE_RESERVED_2!)
@@ -131,11 +130,16 @@ class ValidateWriter{
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CHD_COUNTING_EDGE!)
         
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CHD_DEBOUNCE_TIME_ms!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CHD_SENSOR_FACTOR_float_High!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CHD_SENSOR_FACTOR_float_Low!)
+        
+        let sensor_factor: UInt32 = WifiDevice.shared.WIFI_HR_CS_CHD_SENSOR_FACTOR_float!.bitPattern
+        configValues.append(Int(sensor_factor) >> 16)//high
+        configValues.append(Int(sensor_factor) & 0xFFFF)//Low
+        
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CHD_SENSOR_UNIT!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CHD_USER_SCALE_FACTOR_float_High!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CHD_USER_SCALE_FACTOR_float_Low!)
+        let user_scale_factor: UInt32 = WifiDevice.shared.WIFI_HR_CS_CHD_USER_SCALE_FACTOR_float!.bitPattern
+        configValues.append(Int(user_scale_factor) >> 16) // high
+        configValues.append(Int(user_scale_factor) & 0xFFFF)// low
+        
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CHD_USER_UNIT!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CHD_ENABLE_ALARM_MIN != false ? 0 :  1)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CHD_ENABLE_ALARM_MAX != false ? 0 : 1)
@@ -146,18 +150,32 @@ class ValidateWriter{
         var configValues = [Int]()
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CHD_ALARM_MIN!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CHD_ALARM_MAX!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CHD_TAG_1!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CHD_TAG_2!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CHD_TAG_3!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CHD_TAG_4!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CHD_TAG_5!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CHD_TAG_6!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CHD_TAG_7!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CHD_TAG_8!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CHD_TAG_UNIT_1!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CHD_TAG_UNIT_2!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CHD_TAG_UNIT_3!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CHD_TAG_UNIT_4!)
+        
+        let chdTagBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_chd_tag), size: 16)
+        var hi : UInt8 = 0
+        var lo : UInt8 = 0
+        for i in 0 ..< 16 {
+            if (i % 2 == 0){
+                hi = chdTagBytes[i]
+            }
+            else {
+                lo = chdTagBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+        let chdUnitTagBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_chd_unit_tag), size: 8)
+        hi = 0
+        lo = 0
+        for i in 0 ..< 8 {
+            if (i % 2 == 0){
+                hi = chdUnitTagBytes[i]
+            }
+            else {
+                lo = chdUnitTagBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+       
         configValues.append(WifiDevice.shared.WIFI_HR_CS_FREQUENCY_TO_FILTER!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CH1_ENABLE != false ? 0 : 1)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CH1_MODE!)
@@ -173,20 +191,32 @@ class ValidateWriter{
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CH1_DECIMAL_POINT!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CH1_GAIN_USER_RESERVED!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CH1_OFFSET_USER!)
-            
         configValues.append(WifiDevice.shared.WIFI_HR_CS_RESERVED_28!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH1_TAG_1!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH1_TAG_2!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH1_TAG_3!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH1_TAG_4!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH1_TAG_5!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH1_TAG_6!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH1_TAG_7!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH1_TAG_8!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH1_TAG_UNIT_1!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH1_TAG_UNIT_2!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH1_TAG_UNIT_3!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH1_TAG_UNIT_4!)
+        
+        let ch1TagBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_ch1_tag), size: 16)
+        hi = 0
+        lo = 0
+        for i in 0 ..< 16 {
+            if (i % 2 == 0){
+                hi = ch1TagBytes[i]
+            }
+            else {
+                lo = ch1TagBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+        let ch1UnitTagBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_ch1_unit_tag), size: 8)
+        hi = 0
+        lo = 0
+        for i in 0 ..< 8 {
+            if (i % 2 == 0){
+                hi = ch1UnitTagBytes[i]
+            }
+            else {
+                lo = ch1UnitTagBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
         configValues.append(WifiDevice.shared.WIFI_HR_CS_RESERVED_29!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CH1_CUSTOM_CALIB_NUM_OF_POINTS!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CH1_CUSTOM_CALIB_LOGBOX_1!)
@@ -240,6 +270,30 @@ class ValidateWriter{
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CH2_TAG_UNIT_2!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CH2_TAG_UNIT_3!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CH2_TAG_UNIT_4!)
+        let ch2TagBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_ch2_tag), size: 16)
+        hi = 0
+        lo = 0
+        for i in 0 ..< 16 {
+            if (i % 2 == 0){
+                hi = ch2TagBytes[i]
+            }
+            else {
+                lo = ch2TagBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+        let ch2UnitTagBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_ch2_unit_tag), size: 8)
+        hi = 0
+        lo = 0
+        for i in 0 ..< 8 {
+            if (i % 2 == 0){
+                hi = ch2UnitTagBytes[i]
+            }
+            else {
+                lo = ch2UnitTagBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
         configValues.append(WifiDevice.shared.WIFI_HR_CS_RESERVED_37!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CH2_CUSTOM_CALIB_NUM_OF_POINTS!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CH2_CUSTOM_CALIB_LOGBOX_1!)
@@ -252,7 +306,6 @@ class ValidateWriter{
     
     func validateConfig3() -> [Int]{
         var configValues = [Int]()
-        
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CH2_CUSTOM_CALIB_LOGBOX_5!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CH2_CUSTOM_CALIB_LOGBOX_6!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CH2_CUSTOM_CALIB_LOGBOX_7!)
@@ -288,18 +341,32 @@ class ValidateWriter{
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CH3_GAIN_USER_RESERVED!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CH3_OFFSET_USER!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_RESERVED_44!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH3_TAG_1!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH3_TAG_2!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH3_TAG_3!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH3_TAG_4!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH3_TAG_5!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH3_TAG_6!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH3_TAG_7!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH3_TAG_8!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH3_TAG_UNIT_1!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH3_TAG_UNIT_2!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH3_TAG_UNIT_3!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH3_TAG_UNIT_4!)
+        
+        let ch3TagBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_ch3_tag), size: 16)
+        var hi: UInt8 = 0
+        var lo: UInt8 = 0
+        for i in 0 ..< 16 {
+            if (i % 2 == 0){
+                hi = ch3TagBytes[i]
+            }
+            else {
+                lo = ch3TagBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+        let ch3UnitTagBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_ch3_unit_tag), size: 8)
+        hi = 0
+        lo = 0
+        for i in 0 ..< 8 {
+            if (i % 2 == 0){
+                hi = ch3UnitTagBytes[i]
+            }
+            else {
+                lo = ch3UnitTagBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+        
         configValues.append(WifiDevice.shared.WIFI_HR_CS_RESERVED_45!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CH3_CUSTOM_CALIB_NUM_OF_POINTS!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CH3_CUSTOM_CALIB_LOGBOX_1!)
@@ -350,33 +417,37 @@ class ValidateWriter{
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SSID_28_29!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SSID_30_31!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SSID_32_33!)
-        
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_PASS_0_1!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_PASS_2_3!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_PASS_4_5!)
-        
+        let ssidBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_ssid), size: 34)
+        hi = 0
+        lo = 0
+        for i in 0 ..< 34 {
+            if (i % 2 == 0){
+                hi = ssidBytes[i]
+            }
+            else {
+                lo = ssidBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+
         return configValues
     }
-    
     func validateConfig4() -> [Int]{
         var configValues = [Int]()
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_PASS_6_7!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_PASS_8_9!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_PASS_10_11!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_PASS_12_13!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_PASS_14_15!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_PASS_16_17!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_PASS_18_19!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_PASS_20_21!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_PASS_22_23!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_PASS_24_25!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_PASS_26_27!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_PASS_28_29!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_PASS_30_31!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_PASS_32_33!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_PASS_34_35!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_PASS_36_37!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_PASS_38_39!)
+        
+        //20
+        let wifiPassBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_HR_CS_WIFI_PASS), size: 40)
+        var hi: UInt8 = 0
+        var lo: UInt8 = 0
+        for i in 0 ..< 40 {
+            if (i % 2 == 0){
+                hi = wifiPassBytes[i]
+            }
+            else {
+                lo = wifiPassBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
         
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_IP_STATIC_DHCP != false ? 0 : 1)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_IP_ADDR_0_1!)
@@ -387,60 +458,39 @@ class ValidateWriter{
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_IP_GATEWAY_2_3!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_IP_DNS_0_1!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_IP_DNS_2_3!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_HASH_0_1!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_HASH_2_3!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_HASH_4_5!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_HASH_6_7!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_HASH_8_9!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_HASH_10_11!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_HASH_12_13!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_HASH_14_15!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_HASH_16_17!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_HASH_18_19!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_HASH_20_21!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_HASH_22_23!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_HASH_24_25!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_HASH_26_27!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_HASH_28_29!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_HASH_30_31!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_HASH_32_33!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_HASH_34_35!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_HASH_36_37!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_HASH_38_39!)
+        
+        //20
+        let hashBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_hash), size: 40)
+        hi = 0
+        lo = 0
+        for i in 0 ..< 40 {
+            if (i % 2 == 0){
+                hi = hashBytes[i]
+            }
+            else {
+                lo = hashBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
         
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_ENABLE != false ? 0 : 1)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_SERVICE_PORT!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_QOS!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_00_01!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_02_03!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_04_05!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_06_07!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_08_09!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_10_11!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_12_13!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_14_15!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_16_17!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_18_19!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_20_21!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_22_23!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_24_25!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_26_27!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_28_29!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_30_31!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_32_33!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_34_35!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_36_37!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_38_39!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_40_41!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_42_43!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_44_45!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_46_47!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_48_49!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_50_51!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_52_53!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_54_55!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_56_57!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_URL_58_59!)
+        
+        //30
+        let mqttBroakerUrlBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_mqtt_broker_url), size: 60)
+        hi = 0
+        lo = 0
+        for i in 0 ..< 60 {
+            if (i % 2 == 0){
+                hi = mqttBroakerUrlBytes[i]
+            }
+            else {
+                lo = mqttBroakerUrlBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+        
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_USER_00_01!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_USER_02_03!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_USER_04_05!)
@@ -461,30 +511,40 @@ class ValidateWriter{
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_USER_34_35!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_USER_36_37!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_USER_38_39!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_00_01!)
+        
+        //20
+        let mqttBroakerUserBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_mqtt_broker_user), size: 40)
+        hi = 0
+        lo = 0
+        for i in 0 ..< 40 {
+            if (i % 2 == 0){
+                hi = mqttBroakerUserBytes[i]
+            }
+            else {
+                lo = mqttBroakerUserBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+        
         return configValues
     }
+    
     func validateConfig5() -> [Int]{
         var configValues = [Int]()
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_02_03!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_04_05!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_06_07!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_08_09!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_10_11!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_12_13!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_14_15!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_16_17!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_18_19!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_20_21!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_22_23!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_24_25!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_26_27!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_28_29!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_30_31!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_32_33!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_34_35!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_36_37!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_BROKER_PASS_38_39!)
+    
+        //20
+        let mqttBrokerPassBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_mqtt_broker_pass), size: 40)
+        var hi: UInt8 = 0
+        var lo: UInt8 = 0
+        for i in 0 ..< 40 {
+            if (i % 2 == 0){
+                hi = mqttBrokerPassBytes[i]
+            }
+            else {
+                lo = mqttBrokerPassBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
        
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_JSON_TIMESTAMP != false ? 0 : 1)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_MQTT_JSON_STRUCTURE_STATIC!)
@@ -526,422 +586,244 @@ class ValidateWriter{
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RESERVED_06!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RESERVED_07!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RESERVED_08!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_00_01!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_02_03!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_04_05!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_06_07!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_08_09!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_10_11!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_12_13!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_14_15!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_16_17!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_18_19!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_20_21!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_22_23!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_24_25!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_26_27!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_28_29!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_30_31!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_32_33!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_34_35!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_36_37!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_38_39!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_40_41!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_42_43!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_44_45!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_46_47!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_48_49!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_50_51!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_52_53!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_54_55!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_56_57!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_URL_58_59!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_USER_00_01!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_USER_02_03!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_USER_04_05!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_USER_06_07!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_USER_08_09!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_USER_10_11!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_USER_12_13!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_USER_14_15!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_USER_16_17!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_USER_18_19!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_USER_20_21!)
+        
+        
+        //30
+        let smtpUrlBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_smtp_url), size: 60)
+        hi = 0
+        lo = 0
+        for i in 0 ..< 60 {
+            if (i % 2 == 0){
+                hi = smtpUrlBytes[i]
+            }
+            else {
+                lo = smtpUrlBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+        
         return configValues
     }
+    
     func validateConfig6() -> [Int]{
         var configValues = [Int]()
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_USER_22_23!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_USER_24_25!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_USER_26_27!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_USER_28_29!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_USER_30_31!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_USER_32_33!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_USER_34_35!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_USER_36_37!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_USER_38_39!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_USER_40_41!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_USER_42_43!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_USER_44_45!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_USER_46_47!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_USER_48_49!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_PASSWORD_00_01!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_PASSWORD_02_03!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_PASSWORD_04_05!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_PASSWORD_06_07!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_PASSWORD_08_09!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_PASSWORD_10_11!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_PASSWORD_12_13!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_PASSWORD_14_15!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_PASSWORD_16_17!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_PASSWORD_18_19!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_PASSWORD_20_21!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_PASSWORD_22_23!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_PASSWORD_24_25!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_PASSWORD_26_27!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_PASSWORD_28_29!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_PASSWORD_30_31!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_PASSWORD_32_33!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_PASSWORD_34_35!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_PASSWORD_36_37!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_PASSWORD_38_39!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SENDER_00_01!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SENDER_02_03!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SENDER_04_05!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SENDER_06_07!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SENDER_08_09!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SENDER_10_11!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SENDER_12_13!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SENDER_14_15!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SENDER_16_17!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SENDER_18_19!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SENDER_20_21!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SENDER_22_23!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SENDER_24_25!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SENDER_26_27!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SENDER_28_29!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SENDER_30_31!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SENDER_32_33!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SENDER_34_35!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SENDER_36_37!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SENDER_38_39!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SENDER_40_41!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SENDER_42_43!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SENDER_44_45!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SENDER_46_47!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SENDER_48_49!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SUBJECT_00_01!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SUBJECT_02_03!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SUBJECT_04_05!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SUBJECT_06_07!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SUBJECT_08_09!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SUBJECT_10_11!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SUBJECT_12_13!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SUBJECT_14_15!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SUBJECT_16_17!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SUBJECT_18_19!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SUBJECT_20_21!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SUBJECT_22_23!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SUBJECT_24_25!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SUBJECT_26_27!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SUBJECT_28_29!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SUBJECT_30_31!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SUBJECT_32_33!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SUBJECT_34_35!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SUBJECT_36_37!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_SUBJECT_38_39!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_00_01!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_02_03!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_04_05!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_06_07!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_08_09!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_10_11!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_12_13!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_14_15!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_16_17!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_18_19!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_20_21!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_22_23!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_24_25!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_26_27!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_28_29!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_30_31!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_32_33!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_34_35!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_36_37!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_38_39!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_40_41!)
+        
+        //25
+        let smtpUserBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_smtp_user), size: 50)
+        var hi: UInt8 = 0
+        var lo: UInt8 = 0
+        for i in 0 ..< 50 {
+            if (i % 2 == 0){
+                hi = smtpUserBytes[i]
+            }
+            else {
+                lo = smtpUserBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+        //20
+        let smtpPasswordBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_smtp_password), size: 40)
+        hi = 0
+        lo = 0
+        for i in 0 ..< 40 {
+            if (i % 2 == 0){
+                hi = smtpPasswordBytes[i]
+            }
+            else {
+                lo = smtpPasswordBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+        //25
+        let smtpSenderBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_smtp_sender), size: 50)
+        hi = 0
+        lo = 0
+        for i in 0 ..< 50 {
+            if (i % 2 == 0){
+                hi = smtpSenderBytes[i]
+            }
+            else {
+                lo = smtpSenderBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+        //20
+        let smtpSubjectBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_smtp_subject), size: 40)
+        hi = 0
+        lo = 0
+        for i in 0 ..< 40 {
+            if (i % 2 == 0){
+                hi = smtpSubjectBytes[i]
+            }
+            else {
+                lo = smtpSubjectBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+        
+       
         return configValues
     }
+    
     func validateConfig7() -> [Int]{
         var configValues = [Int]()
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_42_43!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_44_45!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_46_47!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_48_49!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_50_51!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_52_53!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_54_55!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_56_57!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_EMAIL_FRAME_58_59!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_00_01!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_02_03!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_04_05!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_06_07!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_08_09!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_10_11!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_12_13!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_14_15!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_16_17!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_18_19!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_20_21!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_22_23!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_24_25!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_26_27!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_28_29!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_30_31!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_32_33!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_34_35!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_36_37!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_38_39!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_40_41!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_42_43!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_44_45!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_46_47!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_A_48_49!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_00_01!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_02_03!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_04_05!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_06_07!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_08_09!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_10_11!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_12_13!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_14_15!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_16_17!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_18_19!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_20_21!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_22_23!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_24_25!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_26_27!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_28_29!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_30_31!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_32_33!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_34_35!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_36_37!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_38_39!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_40_41!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_42_43!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_44_45!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_46_47!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_B_48_49!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_00_01!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_02_03!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_04_05!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_06_07!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_08_09!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_10_11!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_12_13!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_14_15!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_16_17!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_18_19!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_20_21!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_22_23!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_24_25!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_26_27!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_28_29!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_30_31!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_32_33!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_34_35!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_36_37!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_38_39!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_40_41!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_42_43!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_44_45!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_46_47!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_C_48_49!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_00_01!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_02_03!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_04_05!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_06_07!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_08_09!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_10_11!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_12_13!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_14_15!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_16_17!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_18_19!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_20_21!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_22_23!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_24_25!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_26_27!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_28_29!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_30_31!)
+  
+        //30
+        let smtpEmailBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_smtp_email_frame), size: 60)
+        var hi: UInt8 = 0
+        var lo: UInt8 = 0
+        for i in 0 ..< 60 {
+            if (i % 2 == 0){
+                hi = smtpEmailBytes[i]
+            }
+            else {
+                lo = smtpEmailBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+        //25
+        let smtpContactABytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_smpt_receiver_contact_a), size: 50)
+        hi = 0
+        lo = 0
+        for i in 0 ..< 50 {
+            if (i % 2 == 0){
+                hi = smtpContactABytes[i]
+            }
+            else {
+                lo = smtpContactABytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+        //25
+        let smtpContactBBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_smpt_receiver_contact_b), size: 50)
+        hi = 0
+        lo = 0
+        for i in 0 ..< 50 {
+            if (i % 2 == 0){
+                hi = smtpContactBBytes[i]
+            }
+            else {
+                lo = smtpContactBBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+        //25
+        let smtpContactCBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_smpt_receiver_contact_c), size: 50)
+        hi = 0
+        lo = 0
+        for i in 0 ..< 50 {
+            if (i % 2 == 0){
+                hi = smtpContactCBytes[i]
+            }
+            else {
+                lo = smtpContactCBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+        
+       
         return configValues
     }
+    
     func validateConfig8() -> [Int]{
         var configValues = [Int]()
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_32_33!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_34_35!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_36_37!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_38_39!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_40_41!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_42_43!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_44_45!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_46_47!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_D_48_49!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_00_01!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_02_03!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_04_05!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_06_07!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_08_09!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_10_11!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_12_13!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_14_15!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_16_17!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_18_19!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_20_21!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_22_23!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_24_25!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_26_27!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_28_29!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_30_31!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_32_33!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_34_35!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_36_37!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_38_39!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_40_41!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_42_43!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_44_45!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_46_47!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_E_48_49!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_00_01!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_02_03!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_04_05!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_06_07!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_08_09!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_10_11!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_12_13!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_14_15!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_16_17!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_18_19!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_20_21!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_22_23!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_24_25!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_26_27!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_28_29!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_30_31!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_32_33!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_34_35!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_36_37!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_38_39!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_40_41!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_42_43!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_44_45!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_46_47!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_F_48_49!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_00_01!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_02_03!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_04_05!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_06_07!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_08_09!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_10_11!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_12_13!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_14_15!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_16_17!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_18_19!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_20_21!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_22_23!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_24_25!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_26_27!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_28_29!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_30_31!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_32_33!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_34_35!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_36_37!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_38_39!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_40_41!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_42_43!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_44_45!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_46_47!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_G_48_49!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_00_01!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_02_03!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_04_05!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_06_07!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_08_09!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_10_11!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_12_13!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_14_15!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_16_17!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_18_19!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_20_21!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_22_23!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_24_25!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_26_27!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_28_29!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_30_31!)
+        //25
+        let smtpContactDBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_smpt_receiver_contact_d), size: 50)
+        var hi: UInt8 = 0
+        var lo: UInt8 = 0
+        for i in 0 ..< 50 {
+            if (i % 2 == 0){
+                hi = smtpContactDBytes[i]
+            }
+            else {
+                lo = smtpContactDBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+        //25
+        let smtpContactEBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_smpt_receiver_contact_e), size: 50)
+        hi = 0
+        lo = 0
+        for i in 0 ..< 50 {
+            if (i % 2 == 0){
+                hi = smtpContactEBytes[i]
+            }
+            else {
+                lo = smtpContactEBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+        //25
+        let smtpContactFBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_smpt_receiver_contact_f), size: 50)
+        hi = 0
+        lo = 0
+        for i in 0 ..< 50 {
+            if (i % 2 == 0){
+                hi = smtpContactFBytes[i]
+            }
+            else {
+                lo = smtpContactFBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+       
+        //25
+        let smtpContactGBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_smpt_receiver_contact_g), size: 50)
+        hi = 0
+        lo = 0
+        for i in 0 ..< 50 {
+            if (i % 2 == 0){
+                hi = smtpContactGBytes[i]
+            }
+            else {
+                lo = smtpContactGBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
         return configValues
     }
+    
     func validateConfig9() -> [Int]{
         var configValues = [Int]()
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_32_33!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_34_35!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_36_37!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_38_39!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_40_41!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_42_43!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_44_45!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_46_47!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_H_48_49!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_00_01!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_02_03!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_04_05!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_06_07!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_08_09!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_10_11!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_12_13!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_14_15!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_16_17!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_18_19!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_20_21!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_22_23!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_24_25!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_26_27!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_28_29!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_30_31!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_32_33!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_34_35!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_36_37!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_38_39!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_40_41!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_42_43!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_44_45!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_46_47!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_I_48_49!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_00_01!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_02_03!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_04_05!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_06_07!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_08_09!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_10_11!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_12_13!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_14_15!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_16_17!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_18_19!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_20_21!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_22_23!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_24_25!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_26_27!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_28_29!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_30_31!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_32_33!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_34_35!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_36_37!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_38_39!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_40_41!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_42_43!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_44_45!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_46_47!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RECEIVER_CONTACT_J_48_49!)
+        //25
+        let smtpContactHBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_smpt_receiver_contact_h), size: 50)
+        var hi: UInt8 = 0
+        var lo: UInt8 = 0
+        for i in 0 ..< 50 {
+            if (i % 2 == 0){
+                hi = smtpContactHBytes[i]
+            }
+            else {
+                lo = smtpContactHBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+        //25
+        let smtpContactIBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_smpt_receiver_contact_i), size: 50)
+        hi = 0
+        lo = 0
+        for i in 0 ..< 50 {
+            if (i % 2 == 0){
+                hi = smtpContactIBytes[i]
+            }
+            else {
+                lo = smtpContactIBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+        //25
+        let smtpContactJBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_smpt_receiver_contact_j), size: 50)
+        hi = 0
+        lo = 0
+        for i in 0 ..< 50 {
+            if (i % 2 == 0){
+                hi = smtpContactJBytes[i]
+            }
+            else {
+                lo = smtpContactJBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RESERVED_14!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RESERVED_15!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_SMTP_RESERVED_16!)
@@ -1012,81 +894,48 @@ class ValidateWriter{
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_RESERVED_06!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_RESERVED_07!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_RESERVED_08!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_00_01!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_02_03!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_04_05!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_06_07!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_08_09!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_10_11!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_12_13!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_14_15!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_16_17!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_18_19!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_20_21!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_22_23!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_24_25!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_26_27!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_28_29!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_30_31!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_32_33!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_34_35!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_36_37!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_38_39!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_40_41!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_42_43!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_44_45!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_46_47!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_48_49!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_50_51!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_52_53!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_54_55!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_56_57!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_URL_58_59!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_USER_00_01!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_USER_02_03!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_USER_04_05!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_USER_06_07!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_USER_08_09!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_USER_10_11!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_USER_12_13!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_USER_14_15!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_USER_16_17!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_USER_18_19!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_USER_20_21!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_USER_22_23!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_USER_24_25!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_USER_26_27!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_USER_28_29!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_USER_30_31!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_USER_32_33!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_USER_34_35!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_USER_36_37!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_USER_38_39!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_USER_40_41!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_USER_42_43!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_USER_44_45!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_USER_46_47!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_USER_48_49!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_PASSWORD_00_01!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_PASSWORD_02_03!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_PASSWORD_04_05!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_PASSWORD_06_07!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_PASSWORD_08_09!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_PASSWORD_10_11!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_PASSWORD_12_13!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_PASSWORD_14_15!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_PASSWORD_16_17!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_PASSWORD_18_19!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_PASSWORD_20_21!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_PASSWORD_22_23!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_PASSWORD_24_25!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_PASSWORD_26_27!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_PASSWORD_28_29!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_PASSWORD_30_31!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_PASSWORD_32_33!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_PASSWORD_34_35!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_PASSWORD_36_37!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_FTP_PASSWORD_38_39!)
+        
+        //30
+        let ftpUrlBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_ftp_url), size: 60)
+        var hi: UInt8 = 0
+        var lo: UInt8 = 0
+        for i in 0 ..< 60 {
+            if (i % 2 == 0){
+                hi = ftpUrlBytes[i]
+            }
+            else {
+                lo = ftpUrlBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+        //25
+        let ftpUserBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_ftp_user), size: 50)
+        hi = 0
+        lo = 0
+        for i in 0 ..< 50 {
+            if (i % 2 == 0){
+                hi = ftpUserBytes[i]
+            }
+            else {
+                lo = ftpUserBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+     
+        //20
+        let ftpPassBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_ftp_password), size: 40)
+        hi = 0
+        lo = 0
+        for i in 0 ..< 40 {
+            if (i % 2 == 0){
+                hi = ftpPassBytes[i]
+            }
+            else {
+                lo = ftpPassBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+        
         return configValues
     }
     func validateConfig11() -> [Int]{
@@ -1123,55 +972,35 @@ class ValidateWriter{
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_RESERVED_06!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_RESERVED_07!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_RESERVED_08!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_00_01!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_02_03!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_04_05!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_06_07!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_08_09!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_10_11!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_12_13!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_14_15!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_16_17!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_18_19!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_20_21!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_22_23!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_24_25!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_26_27!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_28_29!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_30_31!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_32_33!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_34_35!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_36_37!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_38_39!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_40_41!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_42_43!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_44_45!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_46_47!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_48_49!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_50_51!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_52_53!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_54_55!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_56_57!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_URL_58_59!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_CIK_00_01!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_CIK_02_03!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_CIK_04_05!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_CIK_06_07!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_CIK_08_09!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_CIK_10_11!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_CIK_12_13!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_CIK_14_15!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_CIK_16_17!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_CIK_18_19!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_CIK_20_21!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_CIK_22_23!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_CIK_24_25!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_CIK_28_29!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_CIK_30_31!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_CIK_32_33!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_CIK_34_35!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_CIK_36_37!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_CIK_38_39!)
+        
+        //30
+        let cloudUrlBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_cloud_url), size: 60)
+        var hi: UInt8 = 0
+        var lo: UInt8 = 0
+        for i in 0 ..< 60 {
+            if (i % 2 == 0){
+                hi = cloudUrlBytes[i]
+            }
+            else {
+                lo = cloudUrlBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+        
+        //20
+        let cloudCikBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_cloud_cik), size: 40)
+        hi = 0
+        lo = 0
+        for i in 0 ..< 40 {
+            if (i % 2 == 0){
+                hi = cloudCikBytes[i]
+            }
+            else {
+                lo = cloudCikBytes[i]
+                configValues.append(Int((Int(hi) & 0xFF) << 8) | (Int(lo) & 0xFF))
+            }
+        }
+       
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_RESERVED_09!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_RESERVED_10!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_CLOUD_RESERVED_11!)
