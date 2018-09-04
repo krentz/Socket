@@ -64,94 +64,125 @@ class ViewController: UIViewController {
             switch client.send(data: self.OPEN_CONFIG_SESSION) {
             case .success:
                 guard let data = client.read(6, timeout: 10) else { return }
-                if data[1] == 101{
+                print("data : \(data)")
+                if data[1] == 16{
                     switch client.send(data: self.writeMultipleRegisters(initReg: 1001, nroReg: 99, values:  ValidateWriter.shared.validateConfig1())){
                     case .success:
                         guard let data = client.read(6, timeout: 10) else { return }
                         if data[1] == 16{
-                            print("\(data)")
+                            print("config 1 \(data)")
                             switch client.send(data: self.writeMultipleRegisters(initReg: 1100, nroReg: 100, values:  ValidateWriter.shared.validateConfig2())){
                             case .success:
                                 guard let data = client.read(6, timeout: 10) else { return }
                                 if data[1] == 16{
-                                    print("\(data)")
+                                    print("config 2 \(data)")
                                     switch client.send(data: self.writeMultipleRegisters(initReg: 1200, nroReg: 100, values:  ValidateWriter.shared.validateConfig3())){
                                     case .success:
                                         guard let data = client.read(6, timeout: 10) else { return }
                                         if data[1] == 16{
-                                            print("\(data)")
+                                            print("config 3 \(data)")
                                             switch client.send(data: self.writeMultipleRegisters(initReg: 1300, nroReg: 100, values:  ValidateWriter.shared.validateConfig4())){
                                             case .success:
                                                 guard let data = client.read(6, timeout: 10) else { return }
                                                 if data[1] == 16{
+                                                    print("config 4 \(data)")
                                                     switch client.send(data: self.writeMultipleRegisters(initReg: 1400, nroReg: 100, values:  ValidateWriter.shared.validateConfig5())){
                                                     case .success:
                                                         guard let data = client.read(6, timeout: 10) else { return }
                                                         if data[1] == 16{
+                                                            print("config 5 \(data)")
                                                             switch client.send(data: self.writeMultipleRegisters(initReg: 1500, nroReg: 100, values:  ValidateWriter.shared.validateConfig6())){
                                                             case .success:
                                                                 guard let data = client.read(6, timeout: 10) else { return }
                                                                 if data[1] == 16{
+                                                                    print("config 6 \(data)")
                                                                     switch client.send(data: self.writeMultipleRegisters(initReg: 1600, nroReg: 100, values:  ValidateWriter.shared.validateConfig7())){
                                                                     case .success:
                                                                         guard let data = client.read(6, timeout: 10) else { return }
                                                                         if data[1] == 16{
+                                                                            print("config 7 \(data)")
                                                                             switch client.send(data: self.writeMultipleRegisters(initReg: 1700, nroReg: 100, values:  ValidateWriter.shared.validateConfig8())){
                                                                             case .success:
                                                                                 guard let data = client.read(6, timeout: 10) else { return }
                                                                                 if data[1] == 16{
+                                                                                    print("config 8\(data)")
                                                                                     switch client.send(data: self.writeMultipleRegisters(initReg: 1800, nroReg: 100, values:  ValidateWriter.shared.validateConfig9())){
                                                                                     case .success:
                                                                                         guard let data = client.read(6, timeout: 10) else { return }
                                                                                         if data[1] == 16{
+                                                                                            print("config 9 \(data)")
                                                                                             switch client.send(data: self.writeMultipleRegisters(initReg: 1900, nroReg: 100, values:  ValidateWriter.shared.validateConfig10())){
                                                                                             case .success:
                                                                                                 guard let data = client.read(6, timeout: 10) else { return }
                                                                                                 if data[1] == 16{
+                                                                                                    print("config 10 \(data)")
                                                                                                     switch client.send(data: self.writeMultipleRegisters(initReg: 2000, nroReg: 95, values:  ValidateWriter.shared.validateConfig11())){
                                                                                                     case .success:
                                                                                                         guard let data = client.read(6, timeout: 10) else { return }
                                                                                                         if data[1] == 16{
-                                                                                                            
+                                                                                                            print("config 11 \(data)")
                                                                                                             
                                                                                                             
                                                                                                             IJProgressView.shared.hideProgressView()
                                                                                                             client.close()
+                                                                                                        }
+                                                                                                        else{ //erro envio 11
+                                                                                                            
                                                                                                         }
                                                                                                     case .failure(let error):
                                                                                                         self.textView.text = "\(error)"
                                                                                                         IJProgressView.shared.hideProgressView()
                                                                                                     }
                                                                                                 }
+                                                                                                else{ //erro envio 10
+                                                                                                    
+                                                                                                }
                                                                                             case .failure(let error):
                                                                                                 self.textView.text = "\(error)"
                                                                                                 IJProgressView.shared.hideProgressView()
                                                                                             }
+                                                                                        }
+                                                                                        else{ //erro envio 9
+                                                                                            
                                                                                         }
                                                                                     case .failure(let error):
                                                                                         self.textView.text = "\(error)"
                                                                                         IJProgressView.shared.hideProgressView()
                                                                                     }
                                                                                 }
+                                                                                else{ //erro envio 8
+                                                                                    
+                                                                                }
                                                                             case .failure(let error):
                                                                                 self.textView.text = "\(error)"
                                                                                 IJProgressView.shared.hideProgressView()
                                                                             }
+                                                                        }
+                                                                        else{ //erro envio 7
+                                                                            
                                                                         }
                                                                     case .failure(let error):
                                                                         self.textView.text = "\(error)"
                                                                         IJProgressView.shared.hideProgressView()
                                                                     }
                                                                 }
+                                                                else{ //erro envio 6
+                                                                    
+                                                                }
                                                             case .failure(let error):
                                                                 self.textView.text = "\(error)"
                                                                 IJProgressView.shared.hideProgressView()
                                                             }
                                                         }
+                                                        else{ //erro envio 5
+                                                            
+                                                        }
                                                     case .failure(let error):
                                                         self.textView.text = "\(error)"
                                                         IJProgressView.shared.hideProgressView()
                                                     }
+                                                }
+                                                else{ //erro envio 4
                                                     
                                                 }
                                             case .failure(let error):
@@ -159,10 +190,16 @@ class ViewController: UIViewController {
                                                 IJProgressView.shared.hideProgressView()
                                             }
                                         }
+                                        else{ //erro envio 3
+                                            
+                                        }
                                     case .failure(let error):
                                         self.textView.text = "\(error)"
                                         IJProgressView.shared.hideProgressView()
                                     }
+                                }
+                                else{ //erro envio 2
+                                    
                                 }
                             case .failure(let error):
                                 self.textView.text = "\(error)"
@@ -200,183 +237,198 @@ class ViewController: UIViewController {
             switch self.client.send(data: self.sendRHR(addr: 0, size: 100)) {
             case .success:
                 guard let data = self.client.read(300, timeout: 10) else { return }
-               // self.parseByte(data: data, size: 100)
-                self.textView.text = " \(data)"
-                
-                //IF BIT DE ERRO SETADO RETURN
-                //ELSE PARSE
-                StatusParser.shared.parseStatus1(values: self.parseByte(data: data, size: 100))
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    
+                if data[1] == 3{
+                    self.textView.text = " \(data)"
+                    print("data status1 : \(data)")
+                    StatusParser.shared.parseStatus1(values: self.parseByte(data: data, size: 100))
                     switch self.client.send(data: self.sendRHR(addr: 100, size: 100)) {
                     case .success:
                         guard let data = self.client.read(300, timeout: 10) else { return }
-                        
-                        //IF BIT DE ERRO SETADO RETURN
-                        //ELSE PARSE
-                        print(data)
-                        StatusParser.shared.parseStatus2(values: self.parseByte(data: data, size: 100))
-                      
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        
-                            switch self.client.send(data: self.sendRHR(addr: 200 , size: 35)) {
+                        if data[1] == 3{
+                            print("data status 2 : \(data)")
+                            StatusParser.shared.parseStatus2(values: self.parseByte(data: data, size: 100))
+                            switch self.client.send(data: self.sendRHR(addr: 200, size: 35)) {
                             case .success:
                                 guard let data = self.client.read(300, timeout: 10) else { return }
-                                print("data 3 : \(data)")
-                                StatusParser.shared.parseStatus3(values: self.parseByte(data: data, size: 35))
-                                
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                if data[1] == 3{
+                                    print("data status 3 : \(data)")
+                                    StatusParser.shared.parseStatus3(values: self.parseByte(data: data, size: 35))
                                     switch self.client.send(data: self.sendRHR(addr: 1000 , size: 100)) {
                                     case .success:
                                         guard let data = self.client.read(300, timeout: 10) else { return }
-                                        print("config 1 : \(data)")
-                                        ConfigParser.shared.parseConfig1(values: self.parseByte(data: data, size: 100))
-                                        
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                        if data[1] == 3{
+                                            print("config 1 : \(data)")
+                                            ConfigParser.shared.parseConfig1(values: self.parseByte(data: data, size: 100))
+                                            
                                             switch self.client.send(data: self.sendRHR(addr: 1100 , size: 100)) {
                                             case .success:
                                                 guard let data = self.client.read(300, timeout: 10) else { return }
-                                                print("config 2 : \(data)")
-                                                ConfigParser.shared.parseConfig2(values: self.parseByte(data: data, size: 100))
-                                                
-                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                if data[1] == 3{
+                                                    print("config 2 : \(data)")
+                                                    ConfigParser.shared.parseConfig2(values: self.parseByte(data: data, size: 100))
                                                     switch self.client.send(data: self.sendRHR(addr: 1200 , size: 100)) {
                                                     case .success:
                                                         guard let data = self.client.read(300, timeout: 10) else { return }
-                                                        print("config 3 : \(data)")
-                                                        ConfigParser.shared.parseConfig3(values: self.parseByte(data: data, size: 100))
-                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                        if data[1] == 3{
+                                                            print("config 3 : \(data)")
+                                                            ConfigParser.shared.parseConfig3(values: self.parseByte(data: data, size: 100))
+                                                            
                                                             switch self.client.send(data: self.sendRHR(addr: 1300 , size: 100)) {
                                                             case .success:
                                                                 guard let data = self.client.read(300, timeout: 10) else { return }
-                                                                print("config 4 : \(data)")
-                                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                                if data[1] == 3{
+                                                                    print("config 4 : \(data)")
+                                                                    ConfigParser.shared.parseConfig4(values: self.parseByte(data: data, size: 100))
+                                                                 
                                                                     switch self.client.send(data: self.sendRHR(addr: 1400 , size: 100)) {
                                                                     case .success:
                                                                         guard let data = self.client.read(300, timeout: 10) else { return }
-                                                                        print("config 5 : \(data)")
-                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                                        if data[1] == 3{
+                                                                            print("config 5 : \(data)")
+                                                                            ConfigParser.shared.parseConfig5(values: self.parseByte(data: data, size: 100))
+                                                                            
                                                                             switch self.client.send(data: self.sendRHR(addr: 1500 , size: 100)) {
                                                                             case .success:
                                                                                 guard let data = self.client.read(300, timeout: 10) else { return }
-                                                                                print("config 6 : \(data)")
-                                                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                                                if data[1] == 3{
+                                                                                    print("config 6 : \(data)")
+                                                                                    ConfigParser.shared.parseConfig6(values: self.parseByte(data: data, size: 100))
+                                                                                    
                                                                                     switch self.client.send(data: self.sendRHR(addr: 1600 , size: 100)) {
                                                                                     case .success:
                                                                                         guard let data = self.client.read(300, timeout: 10) else { return }
-                                                                                        print("config 7 : \(data)")
-                                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                                                        if data[1] == 3{
+                                                                                            print("config 7 : \(data)")
+                                                                                            ConfigParser.shared.parseConfig7(values: self.parseByte(data: data, size: 100))
+                                                                                            
+                                                                                            
                                                                                             switch self.client.send(data: self.sendRHR(addr: 1700 , size: 100)) {
                                                                                             case .success:
                                                                                                 guard let data = self.client.read(300, timeout: 10) else { return }
-                                                                                                print("config 8 : \(data)")
-                                                                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                                                                if data[1] == 3{
+                                                                                                    print("config 8 : \(data)")
+                                                                                                    ConfigParser.shared.parseConfig8(values: self.parseByte(data: data, size: 100))
+                                                                                                    
                                                                                                     switch self.client.send(data: self.sendRHR(addr: 1800 , size: 100)) {
                                                                                                     case .success:
                                                                                                         guard let data = self.client.read(300, timeout: 10) else { return }
-                                                                                                        print("config 9 : \(data)")
-                                                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                                                                        if data[1] == 3{
+                                                                                                            print("config 9 : \(data)")
+                                                                                                            ConfigParser.shared.parseConfig9(values: self.parseByte(data: data, size: 100))
+                                                                                                            
                                                                                                             switch self.client.send(data: self.sendRHR(addr: 1900 , size: 100)) {
                                                                                                             case .success:
                                                                                                                 guard let data = self.client.read(300, timeout: 10) else { return }
-                                                                                                                print("config 10 : \(data)")
-                                                                                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                                                                                if data[1] == 3{
+                                                                                                                    print("config 10 : \(data)")
+                                                                                                                    ConfigParser.shared.parseConfig10(values: self.parseByte(data: data, size: 100))
+                                                                                                                    
                                                                                                                     switch self.client.send(data: self.sendRHR(addr: 2000 , size: 95)) {
                                                                                                                     case .success:
                                                                                                                         guard let data = self.client.read(300, timeout: 10) else { return }
-                                                                                                                        print("config 11 : \(data)")
+                                                                                                                        if data[1] == 3{
+                                                                                                                            print("config 11 : \(data)")
+                                                                                                                            ConfigParser.shared.parseConfig11(values: self.parseByte(data: data, size: 95))
+                                                                                                                            
+                                                                                                                        }
+                                                                                                                        else{
+                                                                                                                            
+                                                                                                                        }
                                                                                                                         self.client.close()
                                                                                                                         IJProgressView.shared.hideProgressView()
-                                                                                                                    case .failure(let error):
+                                                                                                                    case .failure(let error): //config 11
                                                                                                                         self.client.close()
                                                                                                                         self.showError()
                                                                                                                         self.textView.text = "\(error)"
                                                                                                                     }
                                                                                                                 }
-                                                                                                            case .failure(let error):
+                                                                                                            case .failure(let error): //config 10
                                                                                                                 self.client.close()
                                                                                                                 self.showError()
                                                                                                                 self.textView.text = "\(error)"
                                                                                                             }
                                                                                                         }
-                                                                                                    case .failure(let error):
+                                                                                                    case .failure(let error): //config 9
                                                                                                         self.client.close()
                                                                                                         self.showError()
                                                                                                         self.textView.text = "\(error)"
                                                                                                     }
                                                                                                 }
-                                                                                            case .failure(let error):
+                                                                                            case .failure(let error): //config 8
                                                                                                 self.client.close()
                                                                                                 self.showError()
                                                                                                 self.textView.text = "\(error)"
                                                                                             }
                                                                                         }
-                                                                                    case .failure(let error):
+                                                                                    case .failure(let error): //config 7
                                                                                         self.client.close()
                                                                                         self.showError()
                                                                                         self.textView.text = "\(error)"
                                                                                     }
                                                                                 }
-                                                                            case .failure(let error):
+                                                                            case .failure(let error): //config 6
                                                                                 self.client.close()
                                                                                 self.showError()
                                                                                 self.textView.text = "\(error)"
                                                                             }
                                                                         }
-                                                                    case .failure(let error):
+                                                                    case .failure(let error): //config 5
                                                                         self.client.close()
                                                                         self.showError()
                                                                         self.textView.text = "\(error)"
                                                                     }
                                                                 }
-                                                            case .failure(let error):
+                                                            case .failure(let error): //config 4
                                                                 self.client.close()
                                                                 self.showError()
                                                                 self.textView.text = "\(error)"
                                                             }
                                                         }
-                                                    case .failure(let error):
+                                                    case .failure(let error): //config 3
                                                         self.client.close()
                                                         self.showError()
                                                         self.textView.text = "\(error)"
                                                     }
                                                 }
-                                            case .failure(let error):
+                                            case .failure(let error): //config 2
                                                 self.client.close()
                                                 self.showError()
                                                 self.textView.text = "\(error)"
                                             }
                                         }
-                                    case .failure(let error):
+                                    case .failure(let error): //config 1
                                         self.client.close()
                                         self.showError()
                                         self.textView.text = "\(error)"
                                     }
                                 }
-                            case .failure(let error):
+                            case .failure(let error): //status 3
                                 self.client.close()
                                 self.showError()
                                 self.textView.text = "\(error)"
                             }
                         }
-                    case .failure(let error):
+                    case .failure(let error): //status 2
                         self.client.close()
                         self.showError()
                         self.textView.text = "\(error)"
                     }
                 }
-            case .failure(let error):
+                else{ // status 1
+                    
+                }
+            case .failure(let error): //status 1
                 self.client.close()
                 self.showError()
                 self.textView.text = "\(error)"
             }
-        case .failure(let error):
+        case .failure(let error): //connect
             self.client.close()
             self.showError()
             self.textView.text = "\(error)"
         }
     }
+    
     @IBAction func connect(_ sender: Any) {
         
         IJProgressView.shared.showProgressView(self.view)
@@ -453,7 +505,7 @@ class ViewController: UIViewController {
         var i = 0
         var data = Array<UInt8>()   //13 + (2 * nroReg)
         
-        data.append(UInt8(0))
+        data.append(UInt8(1))
         
         data.append(WRITE_MULTIPLE_REGISTERS)
         
@@ -488,11 +540,6 @@ class ViewController: UIViewController {
         return data
     }
     
-    func validateConfig1() {
-    //    self.configValues1.append((WifiDevice.shared.WIFI_HR_CS_SETTING_RESTORE_DEFAULT == false) ? 0 : 1)
-        self.configValues1.append(10)
-        self.configValues1.append(0)
-    }
     
     func mountCommand(advType : UInt8, modbusPacket : [UInt8]) -> [UInt8]{
        
