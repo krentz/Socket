@@ -258,18 +258,7 @@ class ValidateWriter{
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CH2_GAIN_USER_RESERVED!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_CH2_OFFSET_USER!)
         configValues.append(WifiDevice.shared.WIFI_HR_CS_RESERVED_36!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH2_TAG_1!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH2_TAG_2!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH2_TAG_3!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH2_TAG_4!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH2_TAG_5!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH2_TAG_6!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH2_TAG_7!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH2_TAG_8!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH2_TAG_UNIT_1!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH2_TAG_UNIT_2!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH2_TAG_UNIT_3!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_CH2_TAG_UNIT_4!)
+        
         let ch2TagBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_ch2_tag), size: 16)
         hi = 0
         lo = 0

@@ -58,7 +58,7 @@ class ViewController: UIViewController {
         
     }
     @IBAction func write(_ sender: Any) {
-        let client = TCPClient(address: "10.51.10.199", port: 502)
+        let client = TCPClient(address: "10.51.11.60", port: 502)
         switch client.connect(timeout: 10) {
         case .success:
             switch client.send(data: self.OPEN_CONFIG_SESSION) {
@@ -68,52 +68,52 @@ class ViewController: UIViewController {
                 if data[1] == 101{
                     switch client.send(data: self.writeMultipleRegisters(initReg: 1001, nroReg: 99, values:  ValidateWriter.shared.validateConfig1())){
                     case .success:
-                        guard let data = client.read(6, timeout: 10) else { return }
+                        guard let data = client.read(8, timeout: 10) else { return }
                         if data[1] == 16{
                             print("config 1 \(data)")
                             switch client.send(data: self.writeMultipleRegisters(initReg: 1100, nroReg: 100, values:  ValidateWriter.shared.validateConfig2())){
                             case .success:
-                                guard let data = client.read(6, timeout: 10) else { return }
+                                guard let data = client.read(8, timeout: 10) else { return }
                                 if data[1] == 16{
                                     print("config 2 \(data)")
                                     switch client.send(data: self.writeMultipleRegisters(initReg: 1200, nroReg: 97, values:  ValidateWriter.shared.validateConfig3())){
                                     case .success:
-                                        guard let data = client.read(6, timeout: 10) else { return }
+                                        guard let data = client.read(8, timeout: 10) else { return }
                                         if data[1] == 16{
                                             print("config 3 \(data)")
                                             switch client.send(data: self.writeMultipleRegisters(initReg: 1297, nroReg: 102, values:  ValidateWriter.shared.validateConfig4())){
                                             case .success:
-                                                guard let data = client.read(6, timeout: 10) else { return }
+                                                guard let data = client.read(8, timeout: 10) else { return }
                                                 if data[1] == 16{
                                                     print("config 4 \(data)")
                                                     switch client.send(data: self.writeMultipleRegisters(initReg: 1399, nroReg: 90, values:  ValidateWriter.shared.validateConfig5())){
                                                     case .success:
-                                                        guard let data = client.read(6, timeout: 10) else { return }
+                                                        guard let data = client.read(8, timeout: 10) else { return }
                                                         if data[1] == 16{
                                                             print("config 5 \(data)")
                                                             switch client.send(data: self.writeMultipleRegisters(initReg: 1489, nroReg: 90, values:  ValidateWriter.shared.validateConfig6())){
                                                             case .success:
-                                                                guard let data = client.read(6, timeout: 10) else { return }
+                                                                guard let data = client.read(8, timeout: 10) else { return }
                                                                 if data[1] == 16{
                                                                     print("config 6 \(data)")
                                                                     switch client.send(data: self.writeMultipleRegisters(initReg: 1579, nroReg: 105, values:  ValidateWriter.shared.validateConfig7())){
                                                                     case .success:
-                                                                        guard let data = client.read(6, timeout: 10) else { return }
+                                                                        guard let data = client.read(8, timeout: 10) else { return }
                                                                         if data[1] == 16{
                                                                             print("config 7 \(data)")
                                                                             switch client.send(data: self.writeMultipleRegisters(initReg: 1684, nroReg: 100, values:  ValidateWriter.shared.validateConfig8())){
                                                                             case .success:
-                                                                                guard let data = client.read(6, timeout: 10) else { return }
+                                                                                guard let data = client.read(8, timeout: 10) else { return }
                                                                                 if data[1] == 16{
                                                                                     print("config 8\(data)")
                                                                                     switch client.send(data: self.writeMultipleRegisters(initReg: 1784, nroReg: 116, values:  ValidateWriter.shared.validateConfig9())){
                                                                                     case .success:
-                                                                                        guard let data = client.read(6, timeout: 10) else { return }
+                                                                                        guard let data = client.read(8, timeout: 10) else { return }
                                                                                         if data[1] == 16{
                                                                                             print("config 9 \(data)")
                                                                                             switch client.send(data: self.writeMultipleRegisters(initReg: 1900, nroReg: 100, values:  ValidateWriter.shared.validateConfig10())){
                                                                                             case .success:
-                                                                                                guard let data = client.read(6, timeout: 10) else { return }
+                                                                                                guard let data = client.read(8, timeout: 10) else { return }
                                                                                                 if data[1] == 16{
                                                                                                     print("config 10 \(data)")
                                                                                                     switch client.send(data: self.writeMultipleRegisters(initReg: 2000, nroReg: 95, values:  ValidateWriter.shared.validateConfig11())){
@@ -121,10 +121,21 @@ class ViewController: UIViewController {
                                                                                                         guard let data = client.read(6, timeout: 10) else { return }
                                                                                                         if data[1] == 16{
                                                                                                             print("config 11 \(data)")
-                                                                                                            
-                                                                                                            
-                                                                                                            IJProgressView.shared.hideProgressView()
-                                                                                                            client.close()
+                                                                                                            switch client.send(data: self.CLOSE_CONFIG_SESSION) {
+                                                                                                            case .success:
+                                                                                                                 if data[1] == 101{
+                                                                                                                    print("SUCCESS")
+                                                                                                                    //success
+                                                                                                                 }
+                                                                                                                 else{ //close session
+                                                                                                                    
+                                                                                                                 }
+                                                                                                                IJProgressView.shared.hideProgressView()
+                                                                                                                client.close()
+                                                                                                            case .failure(let error):
+                                                                                                                self.textView.text = "\(error)"
+                                                                                                                IJProgressView.shared.hideProgressView()
+                                                                                                            }
                                                                                                         }
                                                                                                         else{ //erro envio 11
                                                                                                             
@@ -230,7 +241,7 @@ class ViewController: UIViewController {
     @IBAction func getRegisters(_ sender: Any) {
         IJProgressView.shared.showProgressView(view)
         self.textView.text = ""
-        self.client = TCPClient(address: "10.51.10.199", port: 502)
+        self.client = TCPClient(address: "10.51.11.60", port: 502)
         
         switch self.client.connect(timeout: 10) {
         case .success:
