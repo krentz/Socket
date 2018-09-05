@@ -450,14 +450,19 @@ class ValidateWriter{
         }
         
         configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_IP_STATIC_DHCP != false ? 0 : 1)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_IP_ADDR_0_1!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_IP_ADDR_2_3!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_IP_MASK_0_1!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_IP_MASK_2_3!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_IP_GATEWAY_0_1!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_IP_GATEWAY_2_3!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_IP_DNS_0_1!)
-        configValues.append(WifiDevice.shared.WIFI_HR_CS_WIFI_IP_DNS_2_3!)
+        
+        let ipArray = WifiDevice.shared.WIFI_config_ip_address .components(separatedBy: ".")
+        configValues.append((Int(ipArray[0])! << 8) | (Int(ipArray[1])! & 0xffff))
+        configValues.append((Int(ipArray[2])! << 8) | (Int(ipArray[3])! & 0xffff))
+        let ipMaskArray = WifiDevice.shared.WIFI_config_ip_mask.components(separatedBy: ".")
+        configValues.append((Int(ipMaskArray[0])! << 8) | (Int(ipMaskArray[1])! & 0xffff))
+        configValues.append((Int(ipMaskArray[2])! << 8) | (Int(ipMaskArray[3])! & 0xffff))
+        let ipGatewayArray = WifiDevice.shared.WIFI_config_ip_gateway.components(separatedBy: ".")
+        configValues.append((Int(ipGatewayArray[0])! << 8) | (Int(ipGatewayArray[1])! & 0xffff))
+        configValues.append((Int(ipGatewayArray[2])! << 8) | (Int(ipGatewayArray[3])! & 0xffff))
+        let ipDnsArray = WifiDevice.shared.WIFI_config_ip_dns.components(separatedBy: ".")
+        configValues.append((Int(ipDnsArray[0])! << 8) | (Int(ipDnsArray[1])! & 0xffff))
+        configValues.append((Int(ipDnsArray[2])! << 8) | (Int(ipDnsArray[3])! & 0xffff))
         
         //20
         let hashBytes = ParseUtils.shared.completeArray(bytes: ParseUtils.shared.getBytesFromString(string: WifiDevice.shared.WIFI_hash), size: 40)
