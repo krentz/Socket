@@ -58,7 +58,7 @@ class ViewController: UIViewController {
         
     }
     @IBAction func write(_ sender: Any) {
-        let client = TCPClient(address: "10.51.11.60", port: 502)
+        let client = TCPClient(address: "10.51.10.199", port: 502)
         switch client.connect(timeout: 10) {
         case .success:
             switch client.send(data: self.OPEN_CONFIG_SESSION) {
@@ -118,11 +118,12 @@ class ViewController: UIViewController {
                                                                                                     print("config 10 \(data)")
                                                                                                     switch client.send(data: self.writeMultipleRegisters(initReg: 2000, nroReg: 95, values:  ValidateWriter.shared.validateConfig11())){
                                                                                                     case .success:
-                                                                                                        guard let data = client.read(6, timeout: 10) else { return }
+                                                                                                        guard let data = client.read(8, timeout: 10) else { return }
                                                                                                         if data[1] == 16{
                                                                                                             print("config 11 \(data)")
                                                                                                             switch client.send(data: self.CLOSE_CONFIG_SESSION) {
                                                                                                             case .success:
+                                                                                                                guard let data = client.read(6, timeout: 10) else { return }
                                                                                                                  if data[1] == 101{
                                                                                                                     print("SUCCESS")
                                                                                                                     //success
@@ -241,7 +242,7 @@ class ViewController: UIViewController {
     @IBAction func getRegisters(_ sender: Any) {
         IJProgressView.shared.showProgressView(view)
         self.textView.text = ""
-        self.client = TCPClient(address: "10.51.11.60", port: 502)
+        self.client = TCPClient(address: "10.51.10.199", port: 502)
         
         switch self.client.connect(timeout: 10) {
         case .success:
